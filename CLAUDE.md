@@ -39,9 +39,12 @@ Entry for the Africa Deep Tech Challenge 2026 (https://adtc-2026.devpost.com/):
   workers (chosen 2026-07-09; targets Best African Use Case prize as well)
 - Working codename: **Shuka** (Hausa: to plant/sow); concept + Gate 1 plan in
   `docs/concept.md`
-- Baseline benchmark (2026-07-09, `npm run bench`): Llama 3.2 1B Q4_0 via
-  @qvac/sdk — 12.2 tok/s avg, first token <1s, load 41.5s. Raw model hallucinates
-  dangerous agronomy (cassava from seeds, shading maize) → all answers MUST be
-  RAG-grounded with citations; never free-associate dosages.
+- Baseline benchmark (2026-07-15, `npm run bench`, medians over 3 reps,
+  warm cache): Llama 3.2 1B Q4_0 via @qvac/sdk — 13.5 tok/s aggregate decode,
+  TTFT ~340ms, load 45.9s, **peak process-tree RSS 1.9GB** (model lives in a
+  QVAC worker; main process alone shows only ~200MB — never quote that).
+  Raw model hallucinates dangerous agronomy (cassava from seeds, shading
+  maize) → all answers MUST be RAG-grounded with citations; never
+  free-associate dosages. Full records in `bench-results/`.
 - ECC installed via `--target claude-project` (modules: rules-core, agents-core,
   commands-core, platform-configs, framework-language, workflow-quality)

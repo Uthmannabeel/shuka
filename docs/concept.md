@@ -31,12 +31,17 @@ Core interactions:
 Initial scope: 4–6 staple crops for Nigeria (maize, cassava, rice, tomato as the
 starting set), English first; Hausa/Yoruba/Pidgin stretch goal for the finals.
 
-## Why retrieval is non-negotiable (baseline finding, 2026-07-09)
+## Why retrieval is non-negotiable (baseline finding, updated 2026-07-15)
 
-Baseline benchmark of raw Llama 3.2 1B Instruct Q4_0 on-device (`src/bench.js`):
+Baseline benchmark of raw Llama 3.2 1B Instruct Q4_0 on-device (`src/bench.js`,
+medians over 3 repetitions after warm-up; records in `bench-results/`):
 
-- Throughput: **12.2 tok/s average**, first token 328–817ms, model load 41.5s —
-  comfortably usable for a chat UI on constrained hardware.
+- Throughput: **13.5 tok/s aggregate decode**, time-to-first-token ~340ms,
+  model load 45.9s (warm cache) — comfortably usable for a chat UI on
+  constrained hardware.
+- Memory: **~1.9GB peak RSS across the process tree** (model + runtime). On
+  the 8GB target that leaves ample headroom for the OS, embedding model, and
+  vector index — the architecture fits the constraint with room to spare.
 - Quality: **dangerously wrong**. The raw model recommended cucumber/squash pest
   treatments for maize, advised shading maize, described growing cassava from
   seeds (it's grown from stem cuttings) with a ~3-month harvest (reality: 9–18

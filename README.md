@@ -19,6 +19,23 @@ npm install
 npm run bench
 ```
 
-Baseline (Llama 3.2 1B Instruct Q4_0, via @qvac/sdk): ~12 tok/s, first token
-<1s on developer hardware. See docs/concept.md for the quality findings that
-motivate the retrieval-grounded architecture.
+The bench runs one untimed warm-up then 3 timed repetitions per prompt and
+reports medians. Time-to-first-token (prefill) and decode tokens/sec are
+measured separately, chars/sec is reported as a unit-independent cross-check,
+and peak RAM is sampled over the whole process tree (the QVAC runtime holds
+the model in a worker process, so main-process RSS alone is misleading).
+Each run is persisted to `bench-results/` as JSON with machine context —
+developer hardware is not the 8GB target spec, so no number travels without it.
+
+Baseline (Llama 3.2 1B Instruct Q4_0, via @qvac/sdk): see the latest record in
+`bench-results/`. See docs/concept.md for the quality findings that motivate
+the retrieval-grounded architecture.
+
+## Dev notes
+
+- `package.json` pins `bare-zlib` to 1.3.1 via `overrides` — carried over from
+  the QVAC spike where newer versions broke the Bare runtime install. Re-test
+  before removing when bumping `@qvac/sdk`.
+- This dev machine sits behind a TLS-intercepting middlebox; `npm install`
+  needs `NODE_OPTIONS=--use-system-ca`. Prefer `npm ci` (lockfile-only) and a
+  cleanly-verifying network for anything release-bound.

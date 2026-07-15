@@ -1,0 +1,127 @@
+{
+  "timestamp": "2026-07-15T08:34:34.992Z",
+  "model": "LLAMA_3_2_1B_INST_Q4_0",
+  "runtime": "@qvac/sdk",
+  "repetitions": 3,
+  "machine": {
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "cores": 12,
+    "totalMemMB": 16069,
+    "platform": "win32 10.0.26200",
+    "node": "v24.15.0"
+  },
+  "modelCacheDirExisted": true,
+  "loadSecs": 45.945,
+  "prompts": [
+    {
+      "prompt": "My maize leaves in Kaduna are showing yellow streaks and stunted growth three weeks after planting. What is the likely cause and what should I do?",
+      "runs": [
+        {
+          "chunks": 503,
+          "chars": 2301,
+          "ttftMs": 208,
+          "totalSecs": 34.482,
+          "decodeSecs": 34.274,
+          "decodeTokPerSec": 14.646670945906518,
+          "charsPerSec": 67.1354379412966
+        },
+        {
+          "chunks": 407,
+          "chars": 1894,
+          "ttftMs": 343,
+          "totalSecs": 31.723,
+          "decodeSecs": 31.38,
+          "decodeTokPerSec": 12.938177182919057,
+          "charsPerSec": 60.356915232632254
+        },
+        {
+          "chunks": 520,
+          "chars": 2497,
+          "ttftMs": 447,
+          "totalSecs": 40.632,
+          "decodeSecs": 40.185,
+          "decodeTokPerSec": 12.915266890630832,
+          "charsPerSec": 62.13761353738957
+        }
+      ],
+      "medianDecodeTokPerSec": 12.938177182919057,
+      "medianTtftMs": 343,
+      "medianCharsPerSec": 62.13761353738957
+    },
+    {
+      "prompt": "Give a planting calendar for cassava in south-west Nigeria, including land preparation, planting, weeding, and harvest windows.",
+      "runs": [
+        {
+          "chunks": 475,
+          "chars": 2084,
+          "ttftMs": 571,
+          "totalSecs": 43.518,
+          "decodeSecs": 42.947,
+          "decodeTokPerSec": 11.036859384823153,
+          "charsPerSec": 48.52492607166973
+        },
+        {
+          "chunks": 710,
+          "chars": 2910,
+          "ttftMs": 334,
+          "totalSecs": 49.473,
+          "decodeSecs": 49.139,
+          "decodeTokPerSec": 14.428458047579316,
+          "charsPerSec": 59.2197643419687
+        },
+        {
+          "chunks": 493,
+          "chars": 2089,
+          "ttftMs": 332,
+          "totalSecs": 35.04,
+          "decodeSecs": 34.708,
+          "decodeTokPerSec": 14.175406246398525,
+          "charsPerSec": 60.187852944566096
+        }
+      ],
+      "medianDecodeTokPerSec": 14.175406246398525,
+      "medianTtftMs": 334,
+      "medianCharsPerSec": 59.2197643419687
+    },
+    {
+      "prompt": "How much NPK 15-15-15 fertiliser should I apply per hectare for rice, and when should I split the applications?",
+      "runs": [
+        {
+          "chunks": 266,
+          "chars": 941,
+          "ttftMs": 460,
+          "totalSecs": 19.152,
+          "decodeSecs": 18.692,
+          "decodeTokPerSec": 14.17718810186176,
+          "charsPerSec": 50.34239246736572
+        },
+        {
+          "chunks": 287,
+          "chars": 1200,
+          "ttftMs": 337,
+          "totalSecs": 20.987,
+          "decodeSecs": 20.65,
+          "decodeTokPerSec": 13.849878934624698,
+          "charsPerSec": 58.11138014527845
+        },
+        {
+          "chunks": 257,
+          "chars": 1102,
+          "ttftMs": 340,
+          "totalSecs": 18.957,
+          "decodeSecs": 18.617,
+          "decodeTokPerSec": 13.750872858140408,
+          "charsPerSec": 59.19321050652629
+        }
+      ],
+      "medianDecodeTokPerSec": 13.849878934624698,
+      "medianTtftMs": 340,
+      "medianCharsPerSec": 58.11138014527845
+    }
+  ],
+  "aggregate": {
+    "decodeTokPerSec": 13.451850016518003,
+    "peakTreeRssMB": 1888,
+    "peakMainRssMB": 195
+  }
+}
