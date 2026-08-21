@@ -21,7 +21,10 @@ import os from "node:os";
 import { loadLLM } from "./lib/llm.js";
 import { RAW_SYSTEM_PROMPT } from "./lib/prompts.js";
 
-const REPETITIONS = 3;
+// SHUKA_BENCH_REPS=1 for a quick pass (e.g. the slow CPU-only worst case);
+// the repetition count is stored in the record so single-run results are
+// never mistaken for medians.
+const REPETITIONS = Math.max(1, Number(process.env.SHUKA_BENCH_REPS) || 3);
 const RSS_SAMPLE_MS = 500;
 
 const SHORT_PROMPTS = [

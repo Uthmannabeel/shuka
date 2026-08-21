@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-08-21T08:53:14.764Z",
+  "model": "Llama-3.2-1B-Instruct-Q4_K_M",
+  "runtime": "node-llama-cpp (llama.cpp)",
+  "backend": "auto",
+  "repetitions": 3,
+  "machine": {
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "cores": 12,
+    "totalMemMB": 16069,
+    "platform": "win32 10.0.26200",
+    "node": "v24.15.0"
+  },
+  "loadSecs": 12.577,
+  "prompts": [
+    {
+      "prompt": "My maize leaves in Kaduna are showing yellow streaks and stunted growth three weeks after planting. What is the likely cause and what should I do?",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 486,
+          "decodeSecs": 31.81,
+          "decodeTokPerSec": 16.06413077648538
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 407,
+          "decodeSecs": 35.905,
+          "decodeTokPerSec": 14.232001114050968
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 381,
+          "decodeSecs": 36.648,
+          "decodeTokPerSec": 13.943462126173323
+        }
+      ],
+      "medianDecodeTokPerSec": 14.232001114050968,
+      "medianTtftMs": 407
+    },
+    {
+      "prompt": "Give a planting calendar for cassava in south-west Nigeria, including land preparation, planting, weeding, and harvest windows.",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 486,
+          "decodeSecs": 35.595,
+          "decodeTokPerSec": 14.355948869223205
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 299,
+          "decodeSecs": 36.757,
+          "decodeTokPerSec": 13.902113883069893
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 301,
+          "decodeSecs": 35.692,
+          "decodeTokPerSec": 14.316933766670402
+        }
+      ],
+      "medianDecodeTokPerSec": 14.316933766670402,
+      "medianTtftMs": 301
+    },
+    {
+      "prompt": "How much NPK 15-15-15 fertiliser should I apply per hectare for rice, and when should I split the applications?",
+      "runs": [
+        {
+          "tokens": 490,
+          "ttftMs": 300,
+          "decodeSecs": 34.421,
+          "decodeTokPerSec": 14.206443740739665
+        },
+        {
+          "tokens": 490,
+          "ttftMs": 503,
+          "decodeSecs": 33.456,
+          "decodeTokPerSec": 14.616212338593973
+        },
+        {
+          "tokens": 490,
+          "ttftMs": 766,
+          "decodeSecs": 35.473,
+          "decodeTokPerSec": 13.785132354184874
+        }
+      ],
+      "medianDecodeTokPerSec": 14.206443740739665,
+      "medianTtftMs": 503
+    }
+  ],
+  "ragPrompt": {
+    "medianTtftMs": 3668
+  },
+  "aggregate": {
+    "decodeTokPerSec": 14.355976272893395,
+    "peakTreeRssMB": 2282
+  }
+}

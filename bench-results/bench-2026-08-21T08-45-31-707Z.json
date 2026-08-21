@@ -1,0 +1,99 @@
+{
+  "timestamp": "2026-08-21T08:45:31.707Z",
+  "model": "Llama-3.2-1B-Instruct-Q4_K_M",
+  "runtime": "node-llama-cpp (llama.cpp)",
+  "backend": "auto",
+  "repetitions": 3,
+  "machine": {
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "cores": 12,
+    "totalMemMB": 16069,
+    "platform": "win32 10.0.26200",
+    "node": "v24.15.0"
+  },
+  "loadSecs": 31.028,
+  "prompts": [
+    {
+      "prompt": "My maize leaves in Kaduna are showing yellow streaks and stunted growth three weeks after planting. What is the likely cause and what should I do?",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 417,
+          "decodeSecs": 37.376,
+          "decodeTokPerSec": 13.671875
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 510,
+          "decodeSecs": 33.593,
+          "decodeTokPerSec": 15.211502396332568
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 342,
+          "decodeSecs": 34.789,
+          "decodeTokPerSec": 14.688550978757652
+        }
+      ],
+      "medianDecodeTokPerSec": 14.688550978757652,
+      "medianTtftMs": 417
+    },
+    {
+      "prompt": "Give a planting calendar for cassava in south-west Nigeria, including land preparation, planting, weeding, and harvest windows.",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 855,
+          "decodeSecs": 41.534,
+          "decodeTokPerSec": 12.303173303799298
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 899,
+          "decodeSecs": 38.383,
+          "decodeTokPerSec": 13.313185524841726
+        },
+        {
+          "tokens": 512,
+          "ttftMs": 856,
+          "decodeSecs": 60.472,
+          "decodeTokPerSec": 8.450191824315386
+        }
+      ],
+      "medianDecodeTokPerSec": 12.303173303799298,
+      "medianTtftMs": 856
+    },
+    {
+      "prompt": "How much NPK 15-15-15 fertiliser should I apply per hectare for rice, and when should I split the applications?",
+      "runs": [
+        {
+          "tokens": 490,
+          "ttftMs": 1141,
+          "decodeSecs": 78.987,
+          "decodeTokPerSec": 6.190892172129591
+        },
+        {
+          "tokens": 490,
+          "ttftMs": 1405,
+          "decodeSecs": 90.978,
+          "decodeTokPerSec": 5.374925806238871
+        },
+        {
+          "tokens": 490,
+          "ttftMs": 1582,
+          "decodeSecs": 99.146,
+          "decodeTokPerSec": 4.932120307425413
+        }
+      ],
+      "medianDecodeTokPerSec": 5.374925806238871,
+      "medianTtftMs": 1405
+    }
+  ],
+  "ragPrompt": {
+    "medianTtftMs": 12506
+  },
+  "aggregate": {
+    "decodeTokPerSec": 8.797534439057713,
+    "peakTreeRssMB": 2279
+  }
+}

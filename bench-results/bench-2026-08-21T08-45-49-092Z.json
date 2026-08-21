@@ -1,0 +1,63 @@
+{
+  "timestamp": "2026-08-21T08:45:49.092Z",
+  "model": "Llama-3.2-1B-Instruct-Q4_K_M",
+  "runtime": "node-llama-cpp (llama.cpp)",
+  "backend": "auto",
+  "repetitions": 1,
+  "machine": {
+    "cpu": "12th Gen Intel(R) Core(TM) i5-1245U",
+    "cores": 12,
+    "totalMemMB": 16069,
+    "platform": "win32 10.0.26200",
+    "node": "v24.15.0"
+  },
+  "loadSecs": 85.811,
+  "prompts": [
+    {
+      "prompt": "My maize leaves in Kaduna are showing yellow streaks and stunted growth three weeks after planting. What is the likely cause and what should I do?",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 1453,
+          "decodeSecs": 97.375,
+          "decodeTokPerSec": 5.2477535301668805
+        }
+      ],
+      "medianDecodeTokPerSec": 5.2477535301668805,
+      "medianTtftMs": 1453
+    },
+    {
+      "prompt": "Give a planting calendar for cassava in south-west Nigeria, including land preparation, planting, weeding, and harvest windows.",
+      "runs": [
+        {
+          "tokens": 512,
+          "ttftMs": 1666,
+          "decodeSecs": 109.161,
+          "decodeTokPerSec": 4.681159021995035
+        }
+      ],
+      "medianDecodeTokPerSec": 4.681159021995035,
+      "medianTtftMs": 1666
+    },
+    {
+      "prompt": "How much NPK 15-15-15 fertiliser should I apply per hectare for rice, and when should I split the applications?",
+      "runs": [
+        {
+          "tokens": 490,
+          "ttftMs": 1612,
+          "decodeSecs": 107.101,
+          "decodeTokPerSec": 4.5657836994986045
+        }
+      ],
+      "medianDecodeTokPerSec": 4.5657836994986045,
+      "medianTtftMs": 1612
+    }
+  ],
+  "ragPrompt": {
+    "medianTtftMs": 7544
+  },
+  "aggregate": {
+    "decodeTokPerSec": 4.817671384434872,
+    "peakTreeRssMB": 2215
+  }
+}
