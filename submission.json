@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1.0",
+  "profiler_version": "adtc-profiler 0.1.0",
+  "submission": {
+    "team_id": "shuka",
+    "domain": "agriculture",
+    "language_scope": [
+      "en"
+    ],
+    "african_alpha_claim": false,
+    "budget_laptop_claim": true,
+    "submitter": {
+      "name": "Nabeel Uthman",
+      "email": "uthmannabeel@gmail.com",
+      "github_handle": "Uthmannabeel"
+    },
+    "cross_disciplinary_pairing": {
+      "discipline": "agricultural_extension",
+      "load_bearing": true,
+      "description": "Offline agronomy assistant for Nigerian extension workers and cooperatives: answers crop diagnosis, planting-calendar, and input-dosage questions grounded in FAO/IITA/CABI extension literature with page-level citations, on an 8GB laptop with no connectivity."
+    },
+    "test_prompts": [
+      {
+        "prompt_id": "tp_001",
+        "prompt": "My maize plants have ragged holes in the leaves and I can see caterpillars and sawdust-like droppings inside the whorl. What pest is this and how should I control it?"
+      },
+      {
+        "prompt_id": "tp_002",
+        "prompt": "How should I select and prepare cassava stem cuttings for planting, and how long after planting can I expect to harvest?"
+      }
+    ],
+    "model": {
+      "name": "Llama-3.2-1B-Instruct-Q4_K_M",
+      "runtime": "llama.cpp",
+      "quantization": "GGUF Q4_K_M",
+      "parameters_estimate": "1.2B",
+      "packaging": "binary_bundle"
+    }
+  },
+  "environment": {
+    "measured_on": "participant_laptop",
+    "cpu_model": "Intel64 Family 6 Model 154 Stepping 4, GenuineIntel",
+    "ram_gb": 15.7,
+    "gpu": "none",
+    "os": "Windows-10-10.0.26200-SP0"
+  },
+  "throughput": {
+    "tokens_per_second_generation": 19.23,
+    "first_token_latency_ms": 1367.44,
+    "prompt_tokens": 512,
+    "generated_tokens": 128
+  },
+  "memory": {
+    "peak_rss_mb": 1386.16,
+    "steady_state_rss_mb": 1166.1,
+    "peak_vms_mb": 1399.01
+  },
+  "accuracy": [
+    {
+      "benchmark": "arc_easy",
+      "dataset_version": "lm-eval-harness",
+      "language": "en",
+      "samples": 50,
+      "score": 0.64,
+      "metric": "acc_norm"
+    }
+  ],
+  "cpu_thermal": {
+    "cpu_percent_p99": 100.0,
+    "core_temp_c_peak": null,
+    "throttled": false
+  },
+  "reproducibility": {
+    "git_commit_sha": "a30fb548d2fb",
+    "docker_image_digest": "unknown",
+    "random_seed": 42
+  },
+  "model_info": {
+    "params_count": 1235814432,
+    "context_length": 131072,
+    "architecture": "llama",
+    "claimed_params_estimate": "1.2B",
+    "params_match": true
+  }
+}

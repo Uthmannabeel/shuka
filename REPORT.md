@@ -57,10 +57,10 @@ and input-dosage questions for maize, cassava, rice, and tomato.
   arrives via `download_model.sh`).
 - **Hybrid-core CPUs are a real hazard for CPU-only inference.** On our
   i5-1245U dev machine (2 P-cores + 8 E-cores), llama.cpp CPU decode
-  managed only ~5.7 tok/s and prefill of a RAG-length prompt (~1,400
-  tokens) took ~85 s — E-core stragglers starve the P-cores. The **Vulkan
-  backend on the integrated GPU** (within the ADTC spec) fixes this:
-  same prompt prefills in ~3 s. The app defaults to Vulkan-with-CPU-fallback;
+  managed only 3–6 tok/s and prefill of a RAG-length prompt (~1,300
+  tokens) took 85–121 s — E-core stragglers starve the P-cores. The
+  **Vulkan backend on the integrated GPU** (within the ADTC spec) fixes
+  this: same prompt prefills in under 4 s. The app defaults to Vulkan-with-CPU-fallback;
   `SHUKA_GPU=off` forces CPU for worst-case measurement.
 - RAG makes prompts long by design (top-4 passages ≈ 1,200–1,500 tokens),
   so we report prefill (TTFT) separately from decode throughput — lumping
@@ -79,12 +79,19 @@ come from the ADTC profiler on the standard evaluation machine.
 | Metric | Vulkan (iGPU), medians of 3 | CPU-only, single run |
 |---|---|---|
 | Machine | i5-1245U (2P+8E), 16 GB RAM, Intel UHD iGPU, Windows 11 | same |
-| Aggregate decode speed | **14.4 t/s** | ~5.7 t/s |
-| TTFT, short prompt | 0.3–0.5 s | ~1.5 s |
-| TTFT, RAG-length prompt (~1,300 tok) | **3.7 s** | ~85 s |
-| Model load | 12.6 s | ~6 s |
-| Peak RAM (process tree, upper bound) | **2.28 GB** | ~2.2 GB |
+| Aggregate decode speed | **14.4 t/s** | 3.0 t/s |
+| TTFT, short prompt | 0.3–0.5 s | 8–10 s |
+| TTFT, RAG-length prompt (~1,300 tok) | **3.7 s** | 121 s |
+| Model load | 12.6 s | 7.5 s |
+| Peak RAM (process tree, upper bound) | **2.28 GB** | 1.70 GB |
 | Thermal throttling | none observed | none observed |
+
+The ADTC profiler itself (llama-bench, arch-optimized CPU build) measures
+**19.2 t/s generation, 1.37 s first-token latency on a 512-token prompt,
+peak RSS 1.39 GB, no thermal throttling, arc_easy acc_norm 0.64** on this
+machine (full run in `submission.json`) — the CPU column above reflects
+node-llama-cpp's generic prebuilt kernels, which is why the app prefers
+the Vulkan backend.
 
 Raw records in `bench-results/`. July QVAC/Q4_0 baseline for comparison
 (same machine, CPU): 13.5 t/s decode, TTFT ~340 ms on short prompts, peak
