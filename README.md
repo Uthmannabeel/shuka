@@ -1,41 +1,83 @@
-# Shuka (working title)
+# Shuka — offline agronomy assistant
 
-Offline agronomy assistant for the hardware Africa actually has — an entry for the
-[Africa Deep Tech Challenge 2026](https://adtc-2026.devpost.com/), Agriculture track.
+**Africa Deep Tech Challenge 2026 · Agriculture track.** *Shuka* is Hausa
+for "to plant / to sow."
 
-Runs a quantized small language model entirely on-device (target: 8GB RAM,
-integrated graphics, CPU-only), grounded in curated agricultural extension
-literature via local retrieval. No cloud, no API keys, no connectivity required.
+Nigeria's agricultural extension system is stretched to roughly one
+extension worker per several thousand farmers, and the obvious fallback —
+asking an AI assistant — fails exactly where farming happens: rural areas
+with weak or unaffordable connectivity, on low-end hardware. Shuka is an
+agronomy assistant that runs **entirely offline** on the hardware
+cooperatives and agro-dealers actually own (the ADTC Standard Laptop: 8GB
+RAM, integrated graphics, i5-class CPU). One offline laptop at a
+cooperative serves a whole community.
 
-## Status
-
-Early proof-of-concept. See [docs/concept.md](docs/concept.md) for the design and
-plan.
-
-## Benchmark
+Small language models make fluent, confident, and **dangerously wrong**
+agronomists — our baseline runs had a bare 1B model recommending growing
+cassava from seed and inventing fertiliser arithmetic. Shuka's answer is
+architectural, not cosmetic: the model supplies *language*, a curated
+corpus of real extension literature supplies the *facts*.
 
 ```
+question → on-device embedding (MiniLM, 384d, quantized ONNX)
+         → exact cosine search over indexed extension literature
+             (FAO / IITA / CABI-ASHC / IRRI — ~850 pages, license-verified)
+         → top-4 passages + question → Llama 3.2 1B Instruct Q4_K_M (llama.cpp)
+         → answer constrained to sources, with page-level citations
+```
+
+**Guardrail:** if no passage clears a similarity floor, the model is not
+called at all — Shuka says it doesn't have sources and points the farmer to
+their local extension office. Silence beats confident error when the cost
+of being wrong is somebody's growing season.
+
+## Quickstart
+
+```bash
 npm install
-npm run bench
+bash download_model.sh   # fetches the GGUF into model/ (~0.8 GB)
+npm run setup            # caches the embedding model; verifies the GGUF
+npm run ask -- "How do I control fall armyworm in maize?"
 ```
 
-The bench runs one untimed warm-up then 3 timed repetitions per prompt and
-reports medians. Time-to-first-token (prefill) and decode tokens/sec are
-measured separately, chars/sec is reported as a unit-independent cross-check,
-and peak RAM is sampled over the whole process tree (the QVAC runtime holds
-the model in a worker process, so main-process RSS alone is misleading).
-Each run is persisted to `bench-results/` as JSON with machine context —
-developer hardware is not the 8GB target spec, so no number travels without it.
+After `npm run setup`, no network is used at all.
 
-Baseline (Llama 3.2 1B Instruct Q4_0, via @qvac/sdk): see the latest record in
-`bench-results/`. See docs/concept.md for the quality findings that motivate
-the retrieval-grounded architecture.
+Useful flags:
 
-## Dev notes
+```bash
+npm run ask -- --show-context "..."   # print retrieved passages + scores
+npm run ask -- --raw "..."            # bare model, no retrieval (comparison only)
+```
 
-- `package.json` pins `bare-zlib` to 1.3.1 via `overrides` — carried over from
-  the QVAC spike where newer versions broke the Bare runtime install. Re-test
-  before removing when bumping `@qvac/sdk`.
-- This dev machine sits behind a TLS-intercepting middlebox; `npm install`
-  needs `NODE_OPTIONS=--use-system-ca`. Prefer `npm ci` (lockfile-only) and a
-  cleanly-verifying network for anything release-bound.
+## Repository layout
+
+| Path | What it is |
+|---|---|
+| `src/ask.js` | CLI entry — retrieval-grounded Q&A with citations |
+| `src/lib/` | embedder, chunker, retriever, prompt policy, llama.cpp wrapper |
+| `src/ingest.js` | corpus PDFs → chunks → embeddings → `corpus/index.json` |
+| `src/bench.js` | throughput / TTFT / peak-RSS benchmark (`npm run bench`) |
+| `src/eval.js` | raw-vs-grounded accuracy eval harness (`npm run eval`) |
+| `corpus/index.json` | the built retrieval index (committed; the app's knowledge) |
+| `corpus/SOURCES.md` | every corpus document, its origin, and its verified license |
+| `eval/` | question set, grading rubric, and graded results |
+| `bench-results/` | benchmark records, including the July QVAC baseline |
+| `metadata.json`, `download_model.sh`, `REPORT.md` | ADTC submission contract |
+
+The source PDFs are not redistributed here (several carry non-commercial
+licenses); `corpus/SOURCES.md` lists the exact URL and license for each,
+and `npm run ingest` rebuilds the index from `corpus/raw/`.
+
+## Benchmarks
+
+See `REPORT.md` for current numbers and `bench-results/` for raw records.
+Metrics are features here: tokens/sec, time-to-first-token, and peak
+process-tree RSS are measured, not estimated, and the report separates
+prefill from decode because RAG prompts are long by design.
+
+## License
+
+Code: MIT (see `LICENSE`). Corpus documents remain under their original
+licenses, per `corpus/SOURCES.md`. Model weights: Llama 3.2 Community
+License (fetched, not redistributed). Open-source dependencies:
+node-llama-cpp (llama.cpp), @huggingface/transformers, pdf-parse.

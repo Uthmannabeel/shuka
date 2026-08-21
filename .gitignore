@@ -1,5 +1,9 @@
+# model weights are fetched by download_model.sh (ADTC submission layout)
+model/
+
+# source PDFs are fetched per corpus/SOURCES.md; several carry non-commercial
+# licenses, so they are not redistributed through this repo. The built
+# retrieval index (corpus/index.json) IS committed — it is what the app needs.
+corpus/raw/
+
 node_modules/
-*.gguf
-models/
-bench-results/*.raw
-.env
