@@ -9,7 +9,8 @@
     "ingest": "node src/ingest.js",
     "ask": "node src/ask.js",
     "eval": "node src/eval.js",
-    "setup": "node src/setup.js"
+    "setup": "node src/setup.js",
+    "serve": "node src/server.js"
   },
   "overrides": {
     "bare-zlib": "1.3.1"
@@ -18,5 +19,8 @@
     "@huggingface/transformers": "^4.2.0",
     "node-llama-cpp": "^3.20.0",
     "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.8.0"
   }
 }

@@ -71,6 +71,18 @@ and input-dosage questions for maize, cassava, rice, and tomato.
   `corpus/SOURCES.md`). Authoritative Nigerian NAERLS bulletins carry no
   license statement, so they are excluded from the index until cleared.
 
+## Demonstration
+
+The application is a local web app (`npm run serve`) styled as an
+extension-service answer sheet: streamed answers cite sources inline, the
+margin lists each cited document with page numbers and match scores, and
+every sheet is stamped — `GROUNDED · N SOURCES`, or `NOT IN SOURCES` when
+the corpus doesn't cover the question and the model is never invoked.
+Screenshots: `docs/screenshots/` (desktop answer, refusal, and mobile).
+A CLI (`npm run ask`) exposes the same pipeline.
+
+![Answer sheet with cited sources](docs/screenshots/ui-answer.png)
+
 ## Benchmarks
 
 Self-reported development numbers on the machine below; official scores

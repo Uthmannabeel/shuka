@@ -37,14 +37,25 @@ of being wrong is somebody's growing season.
 npm install
 bash download_model.sh   # fetches the GGUF into model/ (~0.8 GB)
 npm run setup            # caches the embedding model; verifies the GGUF
-npm run ask -- "How do I control fall armyworm in maize?"
+npm run serve            # web app at http://localhost:4180
 ```
 
 After `npm run setup`, no network is used at all.
 
-Useful flags:
+![Shuka answering a fall-armyworm question with cited sources](docs/screenshots/ui-answer.png)
+
+The web app presents each answer as a **manual-style answer sheet**: the
+text cites its sources like a printed extension bulletin, the margin shows
+each cited document with page numbers and a match score, and every sheet is
+stamped — `GROUNDED · N SOURCES`, or `NOT IN SOURCES` in red when the
+corpus doesn't cover the question and Shuka declines to guess. Set
+`SHUKA_HOST=0.0.0.0` to let phones on the cooperative's own Wi-Fi/hotspot
+use the laptop as an offline answer server.
+
+There is also a CLI:
 
 ```bash
+npm run ask -- "How do I control fall armyworm in maize?"
 npm run ask -- --show-context "..."   # print retrieved passages + scores
 npm run ask -- --raw "..."            # bare model, no retrieval (comparison only)
 ```
@@ -53,6 +64,7 @@ npm run ask -- --raw "..."            # bare model, no retrieval (comparison onl
 
 | Path | What it is |
 |---|---|
+| `src/server.js` + `web/` | local web app — answer sheets with cited sources (`npm run serve`) |
 | `src/ask.js` | CLI entry — retrieval-grounded Q&A with citations |
 | `src/lib/` | embedder, chunker, retriever, prompt policy, llama.cpp wrapper |
 | `src/ingest.js` | corpus PDFs → chunks → embeddings → `corpus/index.json` |
