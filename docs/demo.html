@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo — Shuka</title>
+<meta name="description" content="Watch Shuka answer real farmer questions — recorded sessions from the offline app, including a refusal.">
+<link rel="canonical" href="https://uthmannabeel.github.io/shuka/demo.html">
+<meta property="og:title" content="Watch Shuka answer — recorded offline sessions">
+<meta property="og:description" content="Fall armyworm diagnosed with page citations; an out-of-scope question refused. Real transcripts, replayed.">
+<meta property="og:image" content="https://uthmannabeel.github.io/shuka/screenshots/site-live-hero.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Shuka home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#26301F"/><path d="M32 50 L32 28" stroke="#8FC47D" stroke-width="4" stroke-linecap="round"/><path d="M32 34 C 24 32, 20 26, 19 19 C 27 20, 31 25, 32 32 Z" fill="#8FC47D"/><path d="M32 30 C 39 28, 44 23, 45 16 C 37 17, 33 22, 32 28 Z" fill="#3E7A33"/><path d="M22 52 L42 52" stroke="#C8C0A4" stroke-width="3" stroke-linecap="round"/></svg>
+      SHUKA</a>
+    <span class="offline-chip">100% offline</span>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="topnav" id="nav" aria-label="Site">
+      <a href="how-it-works.html">How it works</a>
+      <a href="demo.html" aria-current="page">Demo</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="sources.html">Sources</a>
+      <a href="run.html">Run it</a>
+      <a class="gh" href="https://github.com/Uthmannabeel/shuka">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Demo</p>
+    <h1>Watch it answer. <em>And watch it refuse.</em></h1>
+    <p class="lede">Three real sessions from the offline app, replayed at the
+    speed they actually ran. Pick a question.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="player-controls" id="controls" role="group" aria-label="Choose a recorded session"></div>
+
+    <div class="player reveal" aria-live="polite">
+      <div class="player-head">
+        <span class="eyebrow" style="color:var(--leaf-deep)">Farmer's question</span>
+        <span class="player-q" id="pq"></span>
+      </div>
+      <div class="player-body">
+        <div>
+          <div class="player-answer" id="pa"></div>
+          <p style="margin-top:1rem"><span class="stamp" id="pstamp" hidden></span></p>
+        </div>
+        <div class="player-sources">
+          <h4>Sources on this answer</h4>
+          <div id="psources"></div>
+        </div>
+      </div>
+      <div class="player-foot">
+        <button class="btn btn-ghost" id="replay" type="button">Replay</button>
+        <span class="metrics" id="pmetrics"></span>
+      </div>
+    </div>
+
+    <p class="demo-honesty" style="margin-top:1.6rem">Honesty note: these are
+    verbatim transcripts from our published evaluation run of 21&nbsp;August
+    2026, replayed in your browser at the measured generation speed. Nothing on
+    this page calls a model — the real thing runs on the laptop, offline.
+    <a href="https://github.com/Uthmannabeel/shuka/tree/master/eval/results" style="color:var(--leaf-deep)">Raw transcripts are in the repository.</a></p>
+  </div>
+</section>
+
+<section class="dim">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The same pipeline, in the app</p>
+      <h2>What you'd see on the laptop.</h2>
+    </div>
+    <div class="cols-2 reveal">
+      <figure>
+        <div class="frame closed"><img src="screenshots/ui-refusal.png" alt="Shuka refusing an out-of-scope poultry question, stamped NOT IN SOURCES" loading="lazy" width="1360" height="940"></div>
+        <figcaption style="margin-top:0.7rem;font-family:var(--mono);font-size:0.68rem;color:var(--ink-soft)">The refusal guardrail: no covering source, no answer — by design.</figcaption>
+      </figure>
+      <figure>
+        <div class="frame closed"><img src="screenshots/ui-mobile.png" alt="Shuka on a phone-sized screen, answer with stacked source cards" loading="lazy" width="900" height="3872" style="max-height:32rem;object-fit:cover;object-position:top"></div>
+        <figcaption style="margin-top:0.7rem;font-family:var(--mono);font-size:0.68rem;color:var(--ink-soft)">Community mode: phones on the cooperative's hotspot use the laptop as an answer server.</figcaption>
+      </figure>
+    </div>
+    <div class="sec-cta reveal"><a class="btn btn-solid" href="run.html">Run it on your own laptop</a></div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">SHUKA</p>
+        <p class="foot-meaning">Hausa: <em>to plant, to sow.</em></p>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="evidence.html">Evidence</a></li>
+          <li><a href="sources.html">Sources</a></li>
+          <li><a href="run.html">Run it</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/Uthmannabeel/shuka">Repository</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/REPORT.md">Technical report</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/tree/master/eval">Evaluation data</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/corpus/SOURCES.md">Corpus provenance</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contest</h4>
+        <ul><li>An entry in the Africa Deep Tech Challenge 2026, Agriculture track.</li></ul>
+      </div>
+    </div>
+    <p class="foot-legal">Code MIT · Model: Llama 3.2 1B Instruct (Meta Llama
+    Community License, downloaded at install) · Corpus documents remain under
+    their original licenses · Shuka gives agronomic information from cited
+    manuals; it is not a substitute for a qualified extension officer.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+// Recorded sessions — verbatim from eval/results/eval-2026-08-21T08-00-28-130Z.
+const SESSIONS = [
+  {
+    id: "faw",
+    label: "Caterpillars in my maize whorl — what pest is this?",
+    q: "My maize leaves have ragged holes and there are caterpillars and sawdust-like droppings in the whorl. What pest is this and how do I control it?",
+    refused: false,
+    ttft: 2.4,
+    tokps: 15.3,
+    sources: [
+      { d: "FAO Fall Armyworm FFS guide", m: "p.22 · match 62%" },
+      { d: "FAO Fall Armyworm FFS guide", m: "p.20 · match 58%" },
+      { d: "ASHC Maize–legume cropping guide", m: "p.73 · match 54%" },
+      { d: "FAO Fall Armyworm FFS guide", m: "p.25 · match 52%" },
+    ],
+    text: "Based on the provided sources, the pest causing the ragged holes and caterpillars and sawdust-like droppings in the whorl is the Fall Armyworm (FAW).\n\nAccording to sources [1] and [2], the Fall Armyworm is a pest that causes significant damage to maize plants, particularly in the whorl. The damage includes ragged holes, caterpillars, and sawdust-like droppings.\n\nSource [1] states that the Fall Armyworm can cause severe damage to maize plants, especially when the growing points of young plants are eaten. It can also cause significant yield losses.\n\nSource [3] provides guidance on controlling the Fall Armyworm, including cultural controls and intercropping with non-host plants, with pesticides only as a last resort.",
+    stamp: "Grounded · 4 sources",
+  },
+  {
+    id: "cassava",
+    label: "How do I prepare cassava stem cuttings?",
+    q: "How do I select and prepare cassava stem cuttings for planting?",
+    refused: false,
+    ttft: 2.8,
+    tokps: 13.3,
+    sources: [
+      { d: "IITA Cassava facilitator's guide", m: "p.11 · match 77%" },
+      { d: "IITA Cassava facilitator's guide", m: "p.13 · match 74%" },
+      { d: "IITA Cassava facilitator's guide", m: "p.12 · match 73%" },
+      { d: "FAO Save and Grow: Cassava", m: "p.56 · match 70%" },
+    ],
+    text: "Based on the provided sources, here is the answer to the farmer's question:\n\nTo select and prepare cassava stem cuttings for planting, you should:\n\n1. Obtain stems for planting from mature plants 10–12 months old.\n2. Store them under the shade for 2–5 days (never more than 2 weeks) before cutting and planting.\n3. Store them vertically on the soil under a shade, with the distal end of the stems touching the soil, and keep the surroundings free from weeds.\n4. Handle the stems with care to prevent damage and ensure good sprouting. [1][2]",
+    stamp: "Grounded · 4 sources",
+  },
+  {
+    id: "refuse",
+    label: "My chickens are sick — what medicine? (out of scope)",
+    q: "My chickens are sneezing and have swollen eyes. What medicine should I give them?",
+    refused: true,
+    ttft: 0.1,
+    tokps: null,
+    sources: [],
+    text: "I don't have reliable information on this in my sources, and I won't guess — wrong agricultural advice can cost you a season. Please ask your local agricultural extension office (ADP) or a trusted agro-dealer.",
+    stamp: "Not in sources",
+  },
+];
+
+const controls = document.getElementById("controls");
+const pq = document.getElementById("pq");
+const pa = document.getElementById("pa");
+const pstamp = document.getElementById("pstamp");
+const psources = document.getElementById("psources");
+const pmetrics = document.getElementById("pmetrics");
+const replayBtn = document.getElementById("replay");
+const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let current = SESSIONS[0];
+let runToken = 0;
+
+for (const s of SESSIONS) {
+  const b = document.createElement("button");
+  b.className = "chip-btn";
+  b.type = "button";
+  b.textContent = s.label;
+  b.setAttribute("aria-pressed", String(s === current));
+  b.addEventListener("click", () => {
+    current = s;
+    for (const other of controls.children) other.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-pressed", "true");
+    play();
+  });
+  controls.appendChild(b);
+}
+
+function renderAnswer(text, streaming) {
+  pa.replaceChildren();
+  for (const part of text.split(/(\[[1-9]\])/)) {
+    const m = part.match(/^\[([1-9])\]$/);
+    if (m) {
+      const c = document.createElement("span");
+      c.className = "cite";
+      c.textContent = m[1];
+      pa.appendChild(c);
+    } else if (part) {
+      pa.appendChild(document.createTextNode(part));
+    }
+  }
+  if (streaming) {
+    const caret = document.createElement("span");
+    caret.className = "caret";
+    pa.appendChild(caret);
+  }
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function play() {
+  const token = ++runToken;
+  const s = current;
+  pq.textContent = s.q;
+  pstamp.hidden = true;
+  pmetrics.textContent = "";
+  psources.replaceChildren();
+  renderAnswer("", true);
+
+  if (reduced) {
+    // no animation: show the finished sheet immediately
+    finish(s);
+    return;
+  }
+
+  await sleep(500); // retrieval
+  if (token !== runToken) return;
+  for (const [i, src] of s.sources.entries()) {
+    const div = document.createElement("div");
+    div.className = "psrc";
+    div.innerHTML = "";
+    const d = document.createElement("div"); d.className = "d"; d.textContent = `[${i + 1}] ${src.d}`;
+    const m = document.createElement("div"); m.className = "m"; m.textContent = src.m;
+    div.append(d, m);
+    psources.appendChild(div);
+    requestAnimationFrame(() => div.classList.add("in"));
+    await sleep(140);
+    if (token !== runToken) return;
+  }
+
+  await sleep(s.refused ? 100 : 900); // time to first token
+  if (token !== runToken) return;
+
+  const words = s.text.split(/(\s+)/);
+  let shown = "";
+  // measured ~13-15 tok/s ≈ 9-11 words/s; replay slightly faster to respect attention
+  const delay = s.refused ? 24 : 62;
+  for (const w of words) {
+    shown += w;
+    renderAnswer(shown, true);
+    if (!/^\s+$/.test(w)) await sleep(delay);
+    if (token !== runToken) return;
+  }
+  finish(s);
+}
+
+function finish(s) {
+  renderAnswer(s.text, false);
+  if (s.refused) {
+    psources.replaceChildren();
+    const none = document.createElement("p");
+    none.style.cssText = "font-family:var(--mono);font-size:0.72rem;color:var(--ink-soft);margin-top:0.6rem";
+    none.textContent = "No passage cleared the relevance floor — the model was never invoked.";
+    psources.appendChild(none);
+  } else if (reduced) {
+    for (const [i, src] of s.sources.entries()) {
+      const div = document.createElement("div");
+      div.className = "psrc in";
+      const d = document.createElement("div"); d.className = "d"; d.textContent = `[${i + 1}] ${src.d}`;
+      const m = document.createElement("div"); m.className = "m"; m.textContent = src.m;
+      div.append(d, m);
+      psources.appendChild(div);
+    }
+  }
+  pstamp.textContent = s.stamp;
+  pstamp.className = "stamp " + (s.refused ? "bad" : "ok");
+  pstamp.hidden = false;
+  pmetrics.textContent = s.refused
+    ? `checked the manuals in ${s.ttft}s — recorded session, replayed`
+    : `first word in ${s.ttft}s · ${s.tokps} tok/s on the laptop — recorded session, replayed`;
+}
+
+replayBtn.addEventListener("click", play);
+play();
+</script>
+</body>
+</html>

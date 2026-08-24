@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Run it — Shuka</title>
+<meta name="description" content="Install Shuka on any 8 GB laptop in three commands, then run it fully offline. Requirements, community Wi-Fi mode, CLI and FAQ.">
+<link rel="canonical" href="https://uthmannabeel.github.io/shuka/run.html">
+<meta property="og:title" content="Run Shuka — three commands, then unplug the internet">
+<meta property="og:description" content="Install on any 8 GB laptop; runs fully offline after setup. Requirements, LAN mode and FAQ.">
+<meta property="og:image" content="https://uthmannabeel.github.io/shuka/screenshots/site-live-hero.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Shuka home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#26301F"/><path d="M32 50 L32 28" stroke="#8FC47D" stroke-width="4" stroke-linecap="round"/><path d="M32 34 C 24 32, 20 26, 19 19 C 27 20, 31 25, 32 32 Z" fill="#8FC47D"/><path d="M32 30 C 39 28, 44 23, 45 16 C 37 17, 33 22, 32 28 Z" fill="#3E7A33"/><path d="M22 52 L42 52" stroke="#C8C0A4" stroke-width="3" stroke-linecap="round"/></svg>
+      SHUKA</a>
+    <span class="offline-chip">100% offline</span>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="topnav" id="nav" aria-label="Site">
+      <a href="how-it-works.html">How it works</a>
+      <a href="demo.html">Demo</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="sources.html">Sources</a>
+      <a href="run.html" aria-current="page">Run it</a>
+      <a class="gh" href="https://github.com/Uthmannabeel/shuka">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">Run it</p>
+    <h1>Three commands. <em>Then unplug the internet.</em></h1>
+    <p class="lede">One online setup fetches the model and caches everything.
+    From then on, Shuka runs with zero network access — that's the point.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="cols-2-wide">
+      <div class="reveal">
+        <div class="sec-head" style="margin-bottom:1.6rem">
+          <p class="eyebrow">Install</p>
+          <h2>Setup, once.</h2>
+        </div>
+        <div class="terminal" role="figure" aria-label="Setup commands">
+          <div><span class="c">$</span> git clone https://github.com/Uthmannabeel/shuka &amp;&amp; cd shuka</div>
+          <div><span class="c">$</span> npm install &amp;&amp; bash download_model.sh</div>
+          <div><span class="c">$</span> npm run setup   <span class="c"># caches the embedding model — last network use</span></div>
+          <div><span class="c">$</span> npm run serve   <span class="c"># → http://localhost:4180</span></div>
+        </div>
+        <p class="prose" style="margin-top:1.2rem">The model download is
+        ~0.8&nbsp;GB. <code class="inline">npm run setup</code> verifies the
+        file and pre-caches the embedding model so nothing ever needs the
+        network again. Open <code class="inline">http://localhost:4180</code>
+        and ask.</p>
+      </div>
+      <ul class="run-facts reveal" style="list-style:none;padding:0">
+        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Requirements</span>Node.js 20+, ~4 GB free disk, any 8 GB laptop with an i5-class CPU. Windows, Linux and macOS. Integrated graphics is used automatically when present.</li>
+        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Community mode</span>Start with <code class="inline">SHUKA_HOST=0.0.0.0</code> and phones on the cooperative's own hotspot can use the laptop as an answer server — still no internet involved.</li>
+        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Command line</span><code class="inline">npm run ask -- "your question"</code> for the same pipeline in a terminal; <code class="inline">--show-context</code> prints retrieved passages, <code class="inline">--raw</code> bypasses grounding for comparison.</li>
+        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Reproduce our numbers</span><code class="inline">npm run bench</code> and <code class="inline">npm run eval</code> regenerate the published benchmarks and evaluation transcripts on your own hardware.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="dim">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Questions reviewers ask</p>
+      <h2>Straight answers.</h2>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary>Is it really offline? What about the fonts on this website?</summary>
+        <p class="a">The application is fully offline after <code class="inline">npm run setup</code> —
+        the app's interface uses system fonts and makes zero network requests,
+        which you can verify with the network tab open or the Wi-Fi off. This
+        marketing website (the page you're reading) is a separate, ordinary
+        website.</p>
+      </details>
+      <details>
+        <summary>Why should I trust its agronomy?</summary>
+        <p class="a">You shouldn't trust <em>it</em> — you should trust FAO,
+        IITA, CABI and IRRI, which is who wrote every fact it's allowed to use.
+        Each answer cites document and page so a professional can verify or
+        overrule. When the manuals are silent, so is Shuka:
+        <a href="evidence.html">see the refusal behaviour in the evaluation</a>.</p>
+      </details>
+      <details>
+        <summary>What happens on a question it can't answer?</summary>
+        <p class="a">If no retrieved passage clears the relevance floor, the
+        language model is never invoked. The farmer gets a plain refusal and a
+        pointer to the local extension office (ADP). In our published eval this
+        fired correctly on poultry-medicine and weather questions.</p>
+      </details>
+      <details>
+        <summary>Which languages does it speak?</summary>
+        <p class="a">English today. Hausa, Yoruba and Pidgin question
+        understanding are the top roadmap items — the corpus stays English,
+        the conversation shouldn't have to be.</p>
+      </details>
+      <details>
+        <summary>Can it run on a phone?</summary>
+        <p class="a">The laptop is the deliberate target: it's the machine
+        cooperatives and agro-dealers already own, and one laptop serves many
+        people. Phones join over the cooperative's own hotspot in community
+        mode rather than each needing a copy.</p>
+      </details>
+      <details>
+        <summary>What data does it collect?</summary>
+        <p class="a">None. There is no server, no account, no telemetry, no
+        network. Questions never leave the laptop.</p>
+      </details>
+      <details>
+        <summary>Is the code open?</summary>
+        <p class="a">MIT-licensed, with the evaluation transcripts, grading
+        rubric, benchmark records and corpus provenance published in the same
+        repository: <a href="https://github.com/Uthmannabeel/shuka">github.com/Uthmannabeel/shuka</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="night">
+  <div class="wrap" style="text-align:center">
+    <p class="eyebrow" style="color:var(--leaf-bright)">Ready</p>
+    <h2 style="margin-top:0.8rem">Put an agronomist on a laptop.</h2>
+    <div class="sec-cta" style="margin-top:1.8rem">
+      <a class="btn btn-solid" href="https://github.com/Uthmannabeel/shuka">Get the code</a>
+      <a class="btn btn-ghost" href="demo.html" style="margin-left:0.7rem">Watch it answer first</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">SHUKA</p>
+        <p class="foot-meaning">Hausa: <em>to plant, to sow.</em></p>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="evidence.html">Evidence</a></li>
+          <li><a href="sources.html">Sources</a></li>
+          <li><a href="run.html">Run it</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/Uthmannabeel/shuka">Repository</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/REPORT.md">Technical report</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/tree/master/eval">Evaluation data</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/corpus/SOURCES.md">Corpus provenance</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contest</h4>
+        <ul><li>An entry in the Africa Deep Tech Challenge 2026, Agriculture track.</li></ul>
+      </div>
+    </div>
+    <p class="foot-legal">Code MIT · Model: Llama 3.2 1B Instruct (Meta Llama
+    Community License, downloaded at install) · Corpus documents remain under
+    their original licenses · Shuka gives agronomic information from cited
+    manuals; it is not a substitute for a qualified extension officer.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

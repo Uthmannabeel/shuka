@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works — Shuka</title>
+<meta name="description" content="Shuka's architecture: on-device retrieval over license-verified extension manuals, a small model constrained to cited sources, and a refusal guardrail. Plus the engineering findings.">
+<link rel="canonical" href="https://uthmannabeel.github.io/shuka/how-it-works.html">
+<meta property="og:title" content="How Shuka works — grounding as the product">
+<meta property="og:description" content="On-device retrieval, cited generation, and a refusal guardrail on 8 GB hardware.">
+<meta property="og:image" content="https://uthmannabeel.github.io/shuka/screenshots/site-live-hero.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Shuka home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#26301F"/><path d="M32 50 L32 28" stroke="#8FC47D" stroke-width="4" stroke-linecap="round"/><path d="M32 34 C 24 32, 20 26, 19 19 C 27 20, 31 25, 32 32 Z" fill="#8FC47D"/><path d="M32 30 C 39 28, 44 23, 45 16 C 37 17, 33 22, 32 28 Z" fill="#3E7A33"/><path d="M22 52 L42 52" stroke="#C8C0A4" stroke-width="3" stroke-linecap="round"/></svg>
+      SHUKA</a>
+    <span class="offline-chip">100% offline</span>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="topnav" id="nav" aria-label="Site">
+      <a href="how-it-works.html" aria-current="page">How it works</a>
+      <a href="demo.html">Demo</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="sources.html">Sources</a>
+      <a href="run.html">Run it</a>
+      <a class="gh" href="https://github.com/Uthmannabeel/shuka">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<div class="page-hero">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h1>The model supplies language. <em>The manuals supply facts.</em></h1>
+    <p class="lede">Shuka is not a chatbot with a system prompt. It is a
+    retrieval pipeline in which a small language model is only ever allowed to
+    paraphrase passages it can cite — and is switched off entirely when there
+    is nothing to cite.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The pipeline</p>
+      <h2>Four stages, all on one laptop.</h2>
+    </div>
+    <div class="steps reveal">
+      <div class="step">
+        <p class="step-n">STAGE 01</p>
+        <h3>Embed the question</h3>
+        <p>A 25 MB sentence-embedding model (MiniLM, quantized ONNX) turns the
+        farmer's question into a 384-dimension vector. CPU, ~100 ms.</p>
+      </div>
+      <div class="step">
+        <p class="step-n">STAGE 02</p>
+        <h3>Search the manuals</h3>
+        <p>Exact cosine search over 1,308 pre-embedded passages from 8
+        manuals. At this scale brute force is single-digit milliseconds — no
+        vector database, no approximation, nothing to tune.</p>
+      </div>
+      <div class="step">
+        <p class="step-n">STAGE 03</p>
+        <h3>Write from sources only</h3>
+        <p>The top passages, with page provenance, are handed to Llama 3.2 1B
+        (Q4_K_M via llama.cpp) under instructions to answer only from them and
+        cite by number — and never to invent a dosage.</p>
+      </div>
+      <div class="step refuse">
+        <p class="step-n">STAGE 04</p>
+        <h3>The guardrail</h3>
+        <p>If no passage clears the relevance floor, generation never starts.
+        The refusal is a feature: it fires on poultry medicine, weather
+        forecasts and loan questions in our evaluation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dim">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Design decisions</p>
+      <h2>Choices a reviewer would ask about.</h2>
+    </div>
+    <div class="cardgrid reveal">
+      <div class="card">
+        <p class="k">Why retrieval, not fine-tuning</p>
+        <h3>Citations and refusals can't be fine-tuned in.</h3>
+        <p>A fine-tuned 1B model still can't tell you which page its dosage
+        came from, and still answers when it shouldn't. Grounding gives page-level
+        citations, a refusal mechanism, and a corpus you can audit — and
+        updating knowledge means re-indexing documents, not retraining.</p>
+      </div>
+      <div class="card">
+        <p class="k">Why a 1B model</p>
+        <h3>Small enough to leave room for knowledge.</h3>
+        <p>On an 8 GB machine the model must share memory with the OS, the
+        embedding model and the index. At 0.77 GB on disk and 1.39 GB peak
+        RSS measured, the whole system uses a fifth of the contest's memory
+        budget — headroom we'll spend on a 3B upgrade only if the evidence
+        says it pays.</p>
+      </div>
+      <div class="card">
+        <p class="k">Why llama.cpp</p>
+        <h3>The same runtime the judges run.</h3>
+        <p>The app binds llama.cpp (via node-llama-cpp) and loads the identical
+        GGUF file the contest's profiler measures — one artifact, no gap
+        between what we demo and what gets scored.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="night">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Engineering findings</p>
+      <h2>What the constraint taught us.</h2>
+    </div>
+    <div class="cols-2-wide">
+      <div class="prose reveal">
+        <p><strong>Hybrid laptop CPUs starve generic llama.cpp builds.</strong>
+        On a 2 P-core + 8 E-core i5, CPU-only decode managed 3–6 tokens/s and a
+        full RAG prompt took over 85 seconds to prefill — efficiency-core
+        stragglers hold the whole tensor graph hostage. The fix wasn't a bigger
+        chip: the same laptop's <strong>integrated GPU, driven over Vulkan,
+        prefills 27× faster</strong> and decodes at 14–15 tokens/s. Shuka
+        auto-selects the iGPU and falls back to CPU. "Integrated graphics" is
+        in the contest's hardware definition for a reason — it's the most
+        underused compute in the African laptop fleet.</p>
+        <p><strong>RAG changes what you must benchmark.</strong> Grounded
+        prompts are long by design — four retrieved passages ahead of every
+        question. Benchmarks that only time short prompts flatter the wrong
+        thing, so our published harness times prefill and decode separately,
+        on both backends, and ships every raw record in the repository.</p>
+      </div>
+      <div class="panel reveal">
+        <p class="eyebrow">The stack, exactly</p>
+        <ul>
+          <li>inference <b>llama.cpp</b> · node-llama-cpp</li>
+          <li>model <b>Llama 3.2 1B Instruct</b> · GGUF Q4_K_M</li>
+          <li>embeddings <b>MiniLM-L6-v2</b> · ONNX int8</li>
+          <li>index <b>exact cosine</b> · 1,308 × 384-d</li>
+          <li>app <b>Node.js</b> · zero-framework web UI</li>
+          <li>network after setup <b>none</b></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">What's next</p>
+      <h2>The roadmap is more corpus, not more model.</h2>
+    </div>
+    <div class="cardgrid reveal">
+      <div class="card">
+        <p class="k">Next</p>
+        <h3>Nigeria-first sources</h3>
+        <p>NAERLS extension bulletins — the national reference — are indexed
+        the day their licensing is cleared. The pipeline is ready; the
+        documents are staged.</p>
+      </div>
+      <div class="card">
+        <p class="k">Then</p>
+        <h3>Hausa, Yoruba, Pidgin</h3>
+        <p>The corpus stays English; the conversation shouldn't have to.
+        Multilingual question understanding is the highest-value upgrade for
+        the people at the front of the queue.</p>
+      </div>
+      <div class="card">
+        <p class="k">Measured, then shipped</p>
+        <h3>A 3B model — if it earns it</h3>
+        <p>Memory headroom allows it. It ships only if the published eval
+        shows the accuracy gain is worth the throughput cost on the standard
+        laptop.</p>
+      </div>
+    </div>
+    <div class="sec-cta reveal">
+      <a class="btn btn-solid" href="evidence.html">See the evidence</a>
+      <a class="btn btn-ghost" href="run.html" style="margin-left:0.7rem">Run it yourself</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <p class="foot-brand">SHUKA</p>
+        <p class="foot-meaning">Hausa: <em>to plant, to sow.</em></p>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="evidence.html">Evidence</a></li>
+          <li><a href="sources.html">Sources</a></li>
+          <li><a href="run.html">Run it</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/Uthmannabeel/shuka">Repository</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/REPORT.md">Technical report</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/tree/master/eval">Evaluation data</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/corpus/SOURCES.md">Corpus provenance</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contest</h4>
+        <ul><li>An entry in the Africa Deep Tech Challenge 2026, Agriculture track.</li></ul>
+      </div>
+    </div>
+    <p class="foot-legal">Code MIT · Model: Llama 3.2 1B Instruct (Meta Llama
+    Community License, downloaded at install) · Corpus documents remain under
+    their original licenses · Shuka gives agronomic information from cited
+    manuals; it is not a substitute for a qualified extension officer.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

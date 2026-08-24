@@ -5,346 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shuka — the agronomist that never guesses</title>
 <meta name="description" content="An offline AI agronomist for the hardware Africa actually has. Every answer cited from real extension manuals; zero dangerous answers in adversarial evaluation.">
+<link rel="canonical" href="https://uthmannabeel.github.io/shuka/">
+<meta property="og:title" content="Shuka — the agronomist that never guesses">
+<meta property="og:description" content="Offline AI agronomy for 8 GB laptops. Cited from real extension manuals. 9 dangerous answers become 0.">
+<meta property="og:image" content="https://uthmannabeel.github.io/shuka/screenshots/site-live-hero.png">
+<meta property="og:url" content="https://uthmannabeel.github.io/shuka/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..800;1,6..72,400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --night: #1B2417;
-  --night-soft: #26301F;
-  --paper: #F4F1E4;
-  --paper-dim: #EAE5D2;
-  --ink: #22271C;
-  --ink-soft: #5A5F4E;
-  --leaf: #3E7A33;
-  --leaf-deep: #2C5A24;
-  --leaf-bright: #8FC47D;
-  --laterite: #A63A20;
-  --laterite-bright: #D8674C;
-  --rule: #C8C0A4;
-  --rule-night: #3A4433;
-  --serif: "Newsreader", Georgia, "Times New Roman", serif;
-  --mono: "IBM Plex Mono", Consolas, ui-monospace, monospace;
-}
-
-* { box-sizing: border-box; margin: 0; }
-html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--serif);
-  font-size: 1.06rem;
-  line-height: 1.65;
-}
-
-a { color: inherit; }
-img { max-width: 100%; display: block; }
-:focus-visible { outline: 3px solid var(--leaf); outline-offset: 3px; }
-
-.wrap { width: min(72rem, 100% - 3rem); margin-inline: auto; }
-
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-/* ---------- stamps: the house verdict mark ---------- */
-.stamp {
-  display: inline-block;
-  font-family: var(--mono);
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  border: 2px solid currentColor;
-  border-radius: 3px;
-  padding: 0.28em 0.6em;
-  transform: rotate(-4deg);
-  white-space: nowrap;
-}
-.stamp.ok { color: var(--leaf-deep); }
-.stamp.bad { color: var(--laterite); }
-
-/* ---------- topbar ---------- */
-.topbar {
-  background: var(--night);
-  color: var(--paper);
-  border-bottom: 1px solid var(--rule-night);
-  position: sticky; top: 0; z-index: 10;
-}
-.topbar .wrap {
-  display: flex; align-items: center; gap: 1.6rem;
-  padding-block: 0.85rem;
-}
-.brand {
-  font-family: var(--mono);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: 0.34em;
-  text-decoration: none;
-}
-.offline-chip {
-  font-family: var(--mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--leaf-bright);
-  border: 1px solid var(--leaf-bright);
-  border-radius: 999px;
-  padding: 0.25em 0.7em;
-}
-.topnav { margin-left: auto; display: flex; gap: 1.5rem; }
-.topnav a {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--paper);
-  opacity: 0.85;
-}
-.topnav a:hover { opacity: 1; color: var(--leaf-bright); }
-
-/* ---------- hero ---------- */
-.hero { background: var(--night); color: var(--paper); padding: 5rem 0 0; overflow: hidden; }
-.hero-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 3.5rem; align-items: center; }
-.hero .eyebrow { color: var(--leaf-bright); margin-bottom: 1.4rem; }
-.hero h1 {
-  font-size: clamp(2.6rem, 5.4vw, 4.4rem);
-  font-weight: 500;
-  line-height: 1.04;
-  letter-spacing: -0.015em;
-  font-variation-settings: "opsz" 72;
-}
-.hero h1 em { font-style: italic; font-weight: 600; color: var(--leaf-bright); }
-.hero-sub { margin-top: 1.5rem; font-size: 1.18rem; line-height: 1.55; max-width: 30rem; opacity: 0.92; }
-.hero-ctas { display: flex; gap: 0.9rem; margin-top: 2.2rem; flex-wrap: wrap; }
-.btn {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.95em 1.7em;
-  border-radius: 3px;
-}
-.btn-solid { background: var(--leaf); color: #fff; border: 1px solid var(--leaf); }
-.btn-solid:hover { background: var(--leaf-deep); border-color: var(--leaf-deep); }
-.btn-ghost { border: 1px solid var(--rule-night); color: var(--paper); }
-.btn-ghost:hover { border-color: var(--leaf-bright); color: var(--leaf-bright); }
-
-.hero-shot { position: relative; margin-bottom: -1px; }
-.hero-shot .frame {
-  border: 1px solid var(--rule-night);
-  border-bottom: none;
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.45);
-}
-.frame-bar {
-  display: flex; align-items: center; gap: 0.45rem;
-  background: var(--night-soft);
-  padding: 0.55rem 0.9rem;
-  border-bottom: 1px solid var(--rule-night);
-}
-.frame-bar i { width: 9px; height: 9px; border-radius: 50%; background: var(--rule-night); }
-.frame-bar span {
-  font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em;
-  color: var(--paper); opacity: 0.6; margin-left: 0.6rem;
-}
-.hero-caption {
-  position: absolute; right: 1rem; top: -1.1rem;
-}
-
-/* stat strip under hero */
-.statstrip { background: var(--night); color: var(--paper); border-top: 1px solid var(--rule-night); }
-.statstrip .wrap {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  padding-block: 1.4rem;
-}
-.stat { border-left: 1px solid var(--rule-night); padding-left: 1.4rem; }
-.stat:first-child { border-left: none; padding-left: 0; }
-.stat b { display: block; font-family: var(--mono); font-size: 1.5rem; font-weight: 600; color: var(--leaf-bright); }
-.stat span { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.75; }
-.stat.red b { color: var(--laterite-bright); }
-
-/* ---------- shared section chrome ---------- */
-section { padding: 5.5rem 0; scroll-margin-top: 4rem; }
-.sec-head { max-width: 42rem; margin-bottom: 3rem; }
-.sec-head .eyebrow { color: var(--leaf-deep); margin-bottom: 1rem; }
-.night .sec-head .eyebrow { color: var(--leaf-bright); }
-h2 {
-  font-size: clamp(1.9rem, 3.4vw, 2.8rem);
-  font-weight: 500;
-  line-height: 1.12;
-  letter-spacing: -0.01em;
-}
-.sec-head p { margin-top: 1.1rem; font-size: 1.12rem; color: var(--ink-soft); }
-.night .sec-head p { color: var(--paper); opacity: 0.85; }
-
-/* ---------- problem ---------- */
-.problem .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
-.problem .cols p + p { margin-top: 1rem; }
-.fieldnote {
-  border: 1px solid var(--rule);
-  border-left: 4px solid var(--leaf);
-  background: #fff;
-  padding: 1.4rem 1.6rem;
-  align-self: start;
-}
-.fieldnote .eyebrow { color: var(--leaf-deep); }
-.fieldnote p { margin-top: 0.8rem; font-size: 1.35rem; font-style: italic; line-height: 1.45; }
-.fieldnote small { display: block; margin-top: 0.9rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.08em; color: var(--ink-soft); }
-
-/* ---------- danger table ---------- */
-.danger { background: var(--paper-dim); }
-.liar-table { border-top: 2px solid var(--ink); }
-.liar-row {
-  display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 5fr) auto;
-  gap: 1.5rem;
-  align-items: center;
-  padding: 1.15rem 0;
-  border-bottom: 1px solid var(--rule);
-}
-.liar-quote { font-size: 1.22rem; font-style: italic; }
-.liar-quote::before { content: "“"; color: var(--laterite); }
-.liar-quote::after { content: "”"; color: var(--laterite); }
-.liar-why { font-size: 0.94rem; color: var(--ink-soft); }
-.danger-turn { margin-top: 2.6rem; max-width: 44rem; font-size: 1.3rem; line-height: 1.5; }
-.danger-turn strong { font-weight: 600; }
-
-/* ---------- how it works ---------- */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 2px solid var(--ink); }
-.step { border-right: 1px solid var(--rule); padding: 1.6rem 1.5rem 1.6rem 0; margin-right: 1.5rem; }
-.step:last-child { border-right: none; margin-right: 0; padding-right: 0; }
-.step-n { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; color: var(--leaf-deep); }
-.step h3 { font-size: 1.3rem; font-weight: 600; margin-top: 0.7rem; }
-.step p { margin-top: 0.6rem; font-size: 0.95rem; color: var(--ink-soft); }
-.step.refuse .step-n { color: var(--laterite); }
-
-/* ---------- evidence ---------- */
-.night { background: var(--night); color: var(--paper); }
-.evidence-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 3.5rem; align-items: start; }
-.table-scroll { overflow-x: auto; }
-table.grades { width: 100%; min-width: 26rem; border-collapse: collapse; font-family: var(--mono); font-size: 0.82rem; }
-.grades caption {
-  caption-side: top; text-align: left;
-  font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.14em;
-  text-transform: uppercase; opacity: 0.7; padding-bottom: 0.8rem;
-}
-.grades th, .grades td { padding: 0.75rem 0.6rem; text-align: right; border-bottom: 1px solid var(--rule-night); }
-.grades th:first-child, .grades td:first-child { text-align: left; padding-left: 0; }
-.grades thead th { font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.7; font-weight: 500; }
-.grades .big { font-size: 1.25rem; font-weight: 600; }
-.grades .good { color: var(--leaf-bright); }
-.grades .bad-n { color: var(--laterite-bright); }
-.evidence-note { font-size: 0.92rem; opacity: 0.8; margin-top: 1.2rem; }
-.evidence-note a { color: var(--leaf-bright); }
-
-.headline-number { border-left: 4px solid var(--leaf-bright); padding-left: 1.6rem; }
-.headline-number b {
-  display: block;
-  font-size: clamp(2.6rem, 5vw, 4rem);
-  font-weight: 600;
-  line-height: 1.05;
-}
-.headline-number b em { font-style: normal; color: var(--laterite-bright); }
-.headline-number b strong { color: var(--leaf-bright); font-weight: 600; }
-.headline-number p { margin-top: 0.9rem; opacity: 0.85; }
-.profiler {
-  margin-top: 2.4rem;
-  border: 1px solid var(--rule-night);
-  padding: 1.3rem 1.5rem;
-}
-.profiler .eyebrow { color: var(--leaf-bright); }
-.profiler ul { list-style: none; padding: 0; margin-top: 0.9rem; font-family: var(--mono); font-size: 0.82rem; line-height: 2; }
-.profiler b { color: var(--leaf-bright); font-weight: 600; }
-
-/* ---------- corpus ---------- */
-.corpus-list { border-top: 2px solid var(--ink); }
-.corpus-row {
-  display: grid;
-  grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 2fr);
-  gap: 1.5rem;
-  padding: 0.95rem 0;
-  border-bottom: 1px solid var(--rule);
-  align-items: baseline;
-}
-.corpus-row .t { font-size: 1.05rem; font-weight: 500; }
-.corpus-row .p, .corpus-row .l { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.05em; color: var(--ink-soft); }
-.corpus-row .l { text-align: right; }
-.corpus-foot { margin-top: 1.4rem; font-size: 0.94rem; color: var(--ink-soft); max-width: 44rem; }
-
-/* ---------- run it ---------- */
-.run { background: var(--paper-dim); }
-.run-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: 3rem; align-items: start; }
-.terminal {
-  background: var(--night);
-  color: var(--paper);
-  border-radius: 6px;
-  padding: 1.4rem 1.6rem;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  line-height: 2;
-  overflow-x: auto;
-}
-.terminal .c { color: var(--leaf-bright); opacity: 0.75; }
-.run-facts { list-style: none; padding: 0; }
-.run-facts li {
-  padding: 0.9rem 0;
-  border-bottom: 1px solid var(--rule);
-  display: flex; gap: 1rem; align-items: baseline;
-}
-.run-facts .k { font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--leaf-deep); min-width: 9rem; }
-
-/* ---------- footer ---------- */
-footer { background: var(--night); color: var(--paper); padding: 3.5rem 0; }
-.foot-grid { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; align-items: baseline; }
-.foot-brand { font-family: var(--mono); letter-spacing: 0.34em; font-weight: 600; }
-.foot-meaning { font-style: italic; opacity: 0.8; margin-top: 0.5rem; }
-.foot-meta { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; line-height: 2; opacity: 0.7; text-align: right; }
-.foot-meta a { color: var(--leaf-bright); }
-
-/* ---------- responsive ---------- */
-@media (max-width: 60rem) {
-  .hero-grid, .evidence-grid, .run-grid, .problem .cols { grid-template-columns: 1fr; }
-  .hero { padding-top: 3.5rem; }
-  .hero-shot { margin-top: 1rem; }
-  .statstrip .wrap { grid-template-columns: 1fr 1fr; gap: 1.2rem 0; }
-  .stat:nth-child(3) { border-left: none; padding-left: 0; }
-  .steps { grid-template-columns: 1fr; }
-  .step { border-right: none; border-bottom: 1px solid var(--rule); margin-right: 0; padding: 1.3rem 0; }
-  .liar-row { grid-template-columns: 1fr; gap: 0.5rem; }
-  .liar-row .stamp { justify-self: start; }
-  .corpus-row { grid-template-columns: 1fr; gap: 0.25rem; }
-  .corpus-row .l { text-align: left; }
-  .topnav { display: none; }
-  .foot-meta { text-align: left; }
-}
-</style>
+<link rel="stylesheet" href="site.css">
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
 <header class="topbar">
   <div class="wrap">
-    <a class="brand" href="#">SHUKA</a>
+    <a class="brand" href="index.html" aria-label="Shuka home">
+      <svg width="22" height="22" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#26301F"/><path d="M32 50 L32 28" stroke="#8FC47D" stroke-width="4" stroke-linecap="round"/><path d="M32 34 C 24 32, 20 26, 19 19 C 27 20, 31 25, 32 32 Z" fill="#8FC47D"/><path d="M32 30 C 39 28, 44 23, 45 16 C 37 17, 33 22, 32 28 Z" fill="#3E7A33"/><path d="M22 52 L42 52" stroke="#C8C0A4" stroke-width="3" stroke-linecap="round"/></svg>
+      SHUKA</a>
     <span class="offline-chip">100% offline</span>
-    <nav class="topnav" aria-label="Sections">
-      <a href="#how">How it works</a>
-      <a href="#evidence">Evidence</a>
-      <a href="#corpus">Sources</a>
-      <a href="#run">Run it</a>
-      <a href="https://github.com/Uthmannabeel/shuka">GitHub</a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+    <nav class="topnav" id="nav" aria-label="Site">
+      <a href="how-it-works.html">How it works</a>
+      <a href="demo.html">Demo</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="sources.html">Sources</a>
+      <a href="run.html">Run it</a>
+      <a class="gh" href="https://github.com/Uthmannabeel/shuka">GitHub</a>
     </nav>
   </div>
 </header>
+
+<main id="main">
 
 <div class="hero">
   <div class="wrap hero-grid">
@@ -355,15 +50,15 @@ footer { background: var(--night); color: var(--paper); padding: 3.5rem 0; }
       from real extension manuals — cited by page, entirely offline, on an
       ordinary 8&nbsp;GB laptop. Where it has no source, it says so.</p>
       <div class="hero-ctas">
-        <a class="btn btn-solid" href="#evidence">See the evidence</a>
-        <a class="btn btn-ghost" href="#run">Run it yourself</a>
+        <a class="btn btn-solid" href="demo.html">See it answer</a>
+        <a class="btn btn-ghost" href="evidence.html">Read the evidence</a>
       </div>
     </div>
     <div class="hero-shot">
       <span class="hero-caption stamp ok">Grounded · 4 sources</span>
       <div class="frame">
         <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:4180 — no internet connection</span></div>
-        <img src="screenshots/ui-answer.png" alt="Shuka diagnosing fall armyworm on maize, with four cited sources shown beside the answer" width="1360" height="940">
+        <img src="screenshots/ui-answer.png" alt="Shuka diagnosing fall armyworm on maize, with four cited sources beside the answer" width="1360" height="940" fetchpriority="high">
       </div>
     </div>
   </div>
@@ -377,14 +72,14 @@ footer { background: var(--night); color: var(--paper); padding: 3.5rem 0; }
   </div>
 </div>
 
-<section class="problem" id="problem">
+<section id="problem">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <p class="eyebrow">The problem</p>
       <h2>Good advice runs out before the road does.</h2>
     </div>
-    <div class="cols">
-      <div>
+    <div class="cols-2">
+      <div class="prose reveal">
         <p>Nigeria fields roughly one agricultural extension worker for every few
         thousand farmers — against a recommended one per thousand. The advice gap
         decides yields, and it is widest exactly where farming happens: rural
@@ -396,58 +91,53 @@ footer { background: var(--night); color: var(--paper); padding: 3.5rem 0; }
         cooperative becomes an answer desk for a whole community — and over the
         cooperative's own Wi-Fi hotspot, phones in the room can use it too.</p>
       </div>
-      <aside class="fieldnote">
+      <aside class="fieldnote reveal">
         <p class="eyebrow">Deployment model</p>
-        <p>One laptop. No internet. A queue of farmers on market day.</p>
+        <p class="big">One laptop. No internet. A queue of farmers on market day.</p>
         <small>ADTC standard hardware: 8 GB RAM · integrated graphics · i5-class CPU</small>
       </aside>
     </div>
   </div>
 </section>
 
-<section class="danger" id="danger">
+<section class="dim" id="danger">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <p class="eyebrow">Why grounding is the product</p>
       <h2>Small language models are confident liars.</h2>
       <p>These are real answers the same 1-billion-parameter model gave when we
       let it speak unsupervised. Each one could cost a farmer a season.</p>
     </div>
-    <div class="liar-table">
-      <div class="liar-row">
+    <div class="ledger reveal">
+      <div class="ledger-row liar-row">
         <p class="liar-quote">Grow cassava from seeds and harvest in about 3 months</p>
         <p class="liar-why">Cassava is grown from stem cuttings and needs 8–24 months. A farmer following this loses the planting season outright.</p>
         <span class="stamp bad">Dangerous</span>
       </div>
-      <div class="liar-row">
+      <div class="ledger-row liar-row">
         <p class="liar-quote">Plant 30 maize seeds per hole</p>
         <p class="liar-why">Recommended practice is 2 per station. Thirty seeds per hole destroys the stand and wastes a season's seed money.</p>
         <span class="stamp bad">Dangerous</span>
       </div>
-      <div class="liar-row">
+      <div class="ledger-row liar-row">
         <p class="liar-quote">Striga is a fungal disease — apply fungicides</p>
         <p class="liar-why">Striga is a parasitic weed. Fungicide spend is wasted and the infestation keeps spreading.</p>
         <span class="stamp bad">Dangerous</span>
       </div>
-      <div class="liar-row">
-        <p class="liar-quote">Apply 2,4-D herbicide around your cassava</p>
-        <p class="liar-why">Broadleaf herbicide drift injures or kills cassava — the crop it was asked to protect.</p>
-        <span class="stamp bad">Dangerous</span>
-      </div>
     </div>
-    <p class="danger-turn">So Shuka never lets the model speak unsupervised.
-    <strong>The model supplies language; a corpus of real extension literature
-    supplies the facts</strong> — and when the corpus is silent, so is Shuka.</p>
+    <div class="sec-cta reveal">
+      <a class="btn btn-ghost" href="evidence.html">All nine dangerous answers, graded →</a>
+    </div>
   </div>
 </section>
 
 <section id="how">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <p class="eyebrow">How it works</p>
       <h2>Every answer walks the same four steps.</h2>
     </div>
-    <div class="steps">
+    <div class="steps reveal">
       <div class="step">
         <p class="step-n">STEP 01</p>
         <h3>Ask</h3>
@@ -469,121 +159,140 @@ footer { background: var(--night); color: var(--paper); padding: 3.5rem 0; }
         <p>No passage clears the relevance floor? The model is never invoked. Shuka says so and points to the extension office.</p>
       </div>
     </div>
+    <div class="sec-cta reveal">
+      <a class="btn btn-ghost" href="how-it-works.html">The full architecture →</a>
+    </div>
   </div>
 </section>
 
-<section class="night" id="evidence">
+<section class="night" id="evidence-teaser">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head reveal">
       <p class="eyebrow">Evidence</p>
       <h2>We graded ourselves adversarially — and published it.</h2>
-      <p>Thirty questions across four crops, plus out-of-scope traps. The same
-      model answered twice: raw, and through Shuka's pipeline. Every answer was
-      graded against the corpus text.</p>
     </div>
-    <div class="evidence-grid">
-      <div>
+    <div class="cols-2-wide">
+      <div class="reveal">
         <div class="table-scroll">
-        <table class="grades">
-          <caption>30-question evaluation · Llama 3.2 1B · grades per eval/RUBRIC.md</caption>
+        <table class="data">
+          <caption>30-question evaluation · Llama 3.2 1B · same model, twice</caption>
           <thead>
             <tr><th>Configuration</th><th>Correct</th><th>Partial</th><th>Wrong</th><th>Dangerous</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Raw model</td><td>0</td><td>9</td><td>12</td>
-              <td class="big bad-n">9</td>
-            </tr>
-            <tr>
-              <td>Shuka (grounded)</td><td class="big good">17</td><td>10</td><td>3</td>
-              <td class="big good">0</td>
-            </tr>
+            <tr><td>Raw model</td><td>0</td><td>9</td><td>12</td><td class="big bad-n">9</td></tr>
+            <tr><td>Shuka (grounded)</td><td class="big good">17</td><td>10</td><td>3</td><td class="big good">0</td></tr>
           </tbody>
         </table>
         </div>
-        <p class="evidence-note">Shuka's three failures are safe ones — two
-        over-cautious refusals and one degenerate answer on a question it should
-        have refused. All logged, with fixes, in
-        <a href="https://github.com/Uthmannabeel/shuka/blob/master/eval/results/grades-2026-08-21.md">the published grade sheet</a>.</p>
+        <div class="sec-cta">
+          <a class="btn btn-solid" href="evidence.html">Read the full evaluation</a>
+          <a class="btn btn-ghost" href="demo.html" style="margin-left:0.7rem">Watch real sessions</a>
+        </div>
       </div>
+      <div class="headline-number reveal">
+        <b><em>9</em> dangerous answers <br>become <strong>0.</strong></b>
+        <p>That is the entire argument for the architecture, measured — on our
+        own published question set, graded against the corpus text.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sources-teaser">
+  <div class="wrap">
+    <div class="cols-2-wide">
+      <div class="reveal">
+        <div class="sec-head" style="margin-bottom:1.6rem">
+          <p class="eyebrow">The sources</p>
+          <h2>Built on manuals agronomists already trust.</h2>
+        </div>
+        <p class="prose">Shuka's knowledge is not scraped. It is eight published
+        extension documents — about 850 pages from FAO, IITA, CABI and IRRI —
+        each license-verified before indexing. Documents we couldn't clear
+        stayed out, and we say which ones.</p>
+        <div class="sec-cta">
+          <a class="btn btn-ghost" href="sources.html">Every document and its license →</a>
+        </div>
+      </div>
+      <aside class="fieldnote reveal">
+        <p class="eyebrow">Provenance rule</p>
+        <p class="big">If we can't name the page an answer came from, the answer doesn't ship.</p>
+        <small>Full provenance table: corpus/SOURCES.md in the repository</small>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="dim" id="run-teaser">
+  <div class="wrap">
+    <div class="cols-2-wide">
+      <div class="reveal">
+        <div class="sec-head" style="margin-bottom:1.6rem">
+          <p class="eyebrow">Run it</p>
+          <h2>Three commands. Then unplug the internet.</h2>
+        </div>
+        <div class="terminal" role="figure" aria-label="Setup commands">
+          <div><span class="c">$</span> npm install &amp;&amp; bash download_model.sh</div>
+          <div><span class="c">$</span> npm run setup</div>
+          <div><span class="c">$</span> npm run serve   <span class="c"># → http://localhost:4180</span></div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="prose" style="margin-top:2.6rem">Any 8 GB laptop with an
+        i5-class CPU is enough. Integrated graphics gets used when present.
+        Setup instructions, community-Wi-Fi mode and a hardware FAQ are on the
+        run page.</p>
+        <div class="sec-cta">
+          <a class="btn btn-solid" href="run.html">Install guide &amp; FAQ</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
       <div>
-        <div class="headline-number">
-          <b><em>9</em> dangerous answers <br>become <strong>0.</strong></b>
-          <p>That is the entire argument for the architecture, measured.</p>
-        </div>
-        <div class="profiler">
-          <p class="eyebrow">Measured by the contest's own profiler</p>
-          <ul>
-            <li>generation <b>19.2 tokens/s</b> · reference is 15</li>
-            <li>first token <b>1.37 s</b> on a 512-token prompt</li>
-            <li>peak memory <b>1.39 GB</b> of the 7 GB budget</li>
-            <li>thermal throttling <b>none</b></li>
-          </ul>
-        </div>
+        <p class="foot-brand">SHUKA</p>
+        <p class="foot-meaning">Hausa: <em>to plant, to sow.</em></p>
+      </div>
+      <div class="foot-col">
+        <h4>Site</h4>
+        <ul>
+          <li><a href="how-it-works.html">How it works</a></li>
+          <li><a href="demo.html">Demo</a></li>
+          <li><a href="evidence.html">Evidence</a></li>
+          <li><a href="sources.html">Sources</a></li>
+          <li><a href="run.html">Run it</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Project</h4>
+        <ul>
+          <li><a href="https://github.com/Uthmannabeel/shuka">Repository</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/REPORT.md">Technical report</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/tree/master/eval">Evaluation data</a></li>
+          <li><a href="https://github.com/Uthmannabeel/shuka/blob/master/corpus/SOURCES.md">Corpus provenance</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Contest</h4>
+        <ul>
+          <li>An entry in the Africa Deep Tech Challenge 2026, Agriculture track.</li>
+        </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="corpus">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">The sources</p>
-      <h2>Built on manuals agronomists already trust.</h2>
-      <p>Shuka's knowledge is not scraped. It is eight published extension
-      documents — about 850 pages — each license-verified before indexing.</p>
-    </div>
-    <div class="corpus-list">
-      <div class="corpus-row"><span class="t">Integrated Management of the Fall Armyworm on Maize</span><span class="p">FAO · 2018</span><span class="l">FAO non-commercial</span></div>
-      <div class="corpus-row"><span class="t">Save and Grow: Cassava</span><span class="p">FAO · 2013</span><span class="l">FAO non-commercial</span></div>
-      <div class="corpus-row"><span class="t">Save and Grow in Practice: Maize · Rice · Wheat</span><span class="p">FAO · 2016</span><span class="l">FAO non-commercial</span></div>
-      <div class="corpus-row"><span class="t">Tomato Integrated Pest Management: An Ecological Guide</span><span class="p">FAO · 2000</span><span class="l">FAO open access</span></div>
-      <div class="corpus-row"><span class="t">Maize–Legume Cropping Guide</span><span class="p">ASHC / CABI · 2016</span><span class="l">CC BY 3.0</span></div>
-      <div class="corpus-row"><span class="t">Facilitator's Guide for Cassava-Based Training</span><span class="p">IITA · 2025</span><span class="l">CC BY 4.0</span></div>
-      <div class="corpus-row"><span class="t">Rice Cultivation Handbook</span><span class="p">IRRI · 2024</span><span class="l">CC BY 4.0</span></div>
-      <div class="corpus-row"><span class="t">Training Manual on Tomato Value Addition</span><span class="p">IITA · 2025</span><span class="l">CC BY 4.0</span></div>
-    </div>
-    <p class="corpus-foot">Provenance, URLs and license verification notes for
-    every document — including the ones we found and chose <em>not</em> to
-    index — are in
-    <a href="https://github.com/Uthmannabeel/shuka/blob/master/corpus/SOURCES.md">corpus/SOURCES.md</a>.</p>
-  </div>
-</section>
-
-<section class="run" id="run">
-  <div class="wrap">
-    <div class="sec-head">
-      <p class="eyebrow">Run it</p>
-      <h2>Three commands. Then unplug the internet.</h2>
-    </div>
-    <div class="run-grid">
-      <div class="terminal" role="figure" aria-label="Setup commands">
-        <div><span class="c">$</span> npm install &amp;&amp; bash download_model.sh</div>
-        <div><span class="c">$</span> npm run setup   <span class="c"># caches everything — last time the network is used</span></div>
-        <div><span class="c">$</span> npm run serve   <span class="c"># → http://localhost:4180</span></div>
-      </div>
-      <ul class="run-facts">
-        <li><span class="k">Hardware</span><span>Any 8 GB laptop with an i5-class CPU. Integrated graphics is enough — Shuka uses it when present.</span></li>
-        <li><span class="k">Community mode</span><span>One flag turns the laptop into an answer server for phones on the cooperative's own hotspot.</span></li>
-        <li><span class="k">Open source</span><span>MIT-licensed code, published eval, published benchmarks. <a href="https://github.com/Uthmannabeel/shuka">github.com/Uthmannabeel/shuka</a></span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap foot-grid">
-    <div>
-      <p class="foot-brand">SHUKA</p>
-      <p class="foot-meaning">Hausa: <em>to plant, to sow.</em></p>
-    </div>
-    <div class="foot-meta">
-      <p>An entry in the Africa Deep Tech Challenge 2026 · Agriculture track</p>
-      <p>Code MIT · Model: Llama 3.2 1B (Meta Llama Community License) · Corpus under original licenses</p>
-      <p><a href="https://github.com/Uthmannabeel/shuka">Repository</a> · <a href="https://github.com/Uthmannabeel/shuka/blob/master/REPORT.md">Technical report</a></p>
-    </div>
+    <p class="foot-legal">Code MIT · Model: Llama 3.2 1B Instruct (Meta Llama
+    Community License, downloaded at install) · Corpus documents remain under
+    their original licenses · Shuka gives agronomic information from cited
+    manuals; it is not a substitute for a qualified extension officer.</p>
   </div>
 </footer>
 
+<script src="site.js"></script>
 </body>
 </html>
