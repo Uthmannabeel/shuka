@@ -15,8 +15,13 @@ const stamp = document.getElementById("stamp");
 const metricsEl = document.getElementById("metrics");
 const sourcesPanel = document.getElementById("sources-panel");
 const sourcesList = document.getElementById("sources-list");
+const sheetActions = document.getElementById("sheet-actions");
+const ledgerSec = document.getElementById("ledger-sec");
+const ledgerList = document.getElementById("ledger-list");
 
 let asking = false;
+let currentAnswerText = "";
+let currentSources = [];
 
 document.getElementById("examples").addEventListener("click", (e) => {
   if (e.target.tagName !== "BUTTON") return;
@@ -40,6 +45,65 @@ fetch("/api/status")
   .catch(() => {
     document.getElementById("status-text").textContent = "server not reachable";
   });
+
+// The ledger: this desk's own past questions. Clicking one re-asks it —
+// near-identical repeats come back instantly from the server's cache.
+function refreshLedger() {
+  fetch("/api/ledger")
+    .then((r) => r.json())
+    .then(({ entries }) => {
+      if (!entries.length) { ledgerSec.hidden = true; return; }
+      ledgerList.replaceChildren();
+      for (const e of entries.slice(0, 8)) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = e.question;
+        const t = document.createElement("time");
+        t.dateTime = e.ts;
+        t.textContent = new Date(e.ts).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+        b.appendChild(t);
+        b.addEventListener("click", () => {
+          questionInput.value = e.question;
+          form.requestSubmit();
+        });
+        ledgerList.appendChild(b);
+      }
+      ledgerSec.hidden = false;
+    })
+    .catch(() => {});
+}
+refreshLedger();
+
+// Print: the answer sheet becomes a paper handout for the farmer.
+document.getElementById("print-btn").addEventListener("click", () => {
+  document.getElementById("print-date").textContent = new Date().toLocaleDateString();
+  window.print();
+});
+
+// Copy: plain text with citations, ready for WhatsApp or SMS.
+document.getElementById("copy-btn").addEventListener("click", async (e) => {
+  const lines = [
+    `Q: ${sheetQ.textContent}`,
+    "",
+    currentAnswerText,
+    "",
+    "Sources:",
+    ...currentSources.map((s) => {
+      const pages = s.pageStart === s.pageEnd ? `p.${s.pageStart}` : `pp.${s.pageStart}-${s.pageEnd}`;
+      return `[${s.n}] ${s.doc.replace(/\.pdf$/, "")}, ${pages}`;
+    }),
+    "",
+    "— Shuka, offline agronomy assistant",
+  ];
+  try {
+    await navigator.clipboard.writeText(lines.join("\n"));
+    e.target.textContent = "Copied";
+    setTimeout(() => { e.target.textContent = "Copy as text"; }, 1600);
+  } catch {
+    e.target.textContent = "Copy failed";
+    setTimeout(() => { e.target.textContent = "Copy as text"; }, 1600);
+  }
+});
 
 // Renders answer text, turning [1]-[9] markers into citation chips that
 // flash the matching source card. A partial marker at the streaming edge
@@ -131,12 +195,15 @@ form.addEventListener("submit", async (e) => {
   sheetQ.textContent = question;
   stamp.hidden = true;
   metricsEl.textContent = "";
+  sheetActions.hidden = true;
   sourcesPanel.hidden = true;
   sourcesList.replaceChildren();
   renderAnswer("", { streaming: true });
 
   let text = "";
   let sourceCount = 0;
+  currentAnswerText = "";
+  currentSources = [];
 
   try {
     const res = await fetch("/api/ask", {
@@ -166,7 +233,17 @@ form.addEventListener("submit", async (e) => {
 
         if (event === "sources") {
           sourceCount = data.sources.length;
+          currentSources = data.sources;
           renderSources(data.sources);
+        } else if (event === "cached") {
+          currentSources = data.sources;
+          currentAnswerText = data.answer;
+          renderSources(data.sources);
+          renderAnswer(data.answer, { streaming: false });
+          setStamp(`Grounded · ${data.sources.length} source${data.sources.length === 1 ? "" : "s"}`, false);
+          const when = new Date(data.answeredAt).toLocaleDateString(undefined, { day: "numeric", month: "short" });
+          metricsEl.textContent = `from this desk's ledger — first answered ${when} · served instantly, offline`;
+          sheetActions.hidden = false;
         } else if (event === "token") {
           text += data.t;
           renderAnswer(text, { streaming: true });
@@ -177,12 +254,15 @@ form.addEventListener("submit", async (e) => {
           metricsEl.textContent = `checked the manuals in ${(data.retrievalMs / 1000).toFixed(1)}s — no covering passage found`;
         } else if (event === "done") {
           renderAnswer(text, { streaming: false });
+          currentAnswerText = text;
           setStamp(`Grounded · ${sourceCount} source${sourceCount === 1 ? "" : "s"}`, false);
           const bits = [];
           if (data.ttftMs != null) bits.push(`first word in ${(data.ttftMs / 1000).toFixed(1)}s`);
           if (data.tokPerSec != null) bits.push(`${data.tokPerSec} tok/s`);
           bits.push("answered on this computer, offline");
           metricsEl.textContent = bits.join(" · ");
+          sheetActions.hidden = false;
+          refreshLedger();
         } else if (event === "error") {
           renderAnswer(data.message, { streaming: false });
         }

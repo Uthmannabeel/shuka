@@ -11,3 +11,4 @@ node_modules/
 profiler-run.log
 profiler-run.err.log
 serve.log
+ledger/

@@ -25,14 +25,24 @@ export function loadIndex() {
 
 /**
  * @param {object} index from loadIndex()
+ * @param {Float32Array} queryVec unit-normalised query embedding
+ * @param {number} k
+ * @returns {{chunk: object, score: number}[]} top-k by cosine, descending
+ */
+export function rankByVector(index, queryVec, k) {
+  return index.chunks
+    .map((chunk) => ({ chunk, score: dot(queryVec, chunk.vector) }))
+    .sort((a, b) => b.score - a.score)
+    .slice(0, k);
+}
+
+/**
+ * @param {object} index from loadIndex()
  * @param {string} query
  * @param {number} k
  * @returns {Promise<{chunk: object, score: number}[]>} top-k by cosine, descending
  */
 export async function retrieve(index, query, k) {
   const [queryVec] = await embedTexts([query]);
-  return index.chunks
-    .map((chunk) => ({ chunk, score: dot(queryVec, chunk.vector) }))
-    .sort((a, b) => b.score - a.score)
-    .slice(0, k);
+  return rankByVector(index, queryVec, k);
 }

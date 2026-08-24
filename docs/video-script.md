@@ -35,7 +35,11 @@ voiceover. One continuous take if possible.
 > extension bulletin. Fall armyworm, correctly diagnosed. The margin shows
 > exactly which manual and which page each claim comes from — and the
 > sheet is stamped: grounded, four sources."
-*(click a citation chip; the source card flashes)*
+*(click a citation chip; the source card flashes. Then click PRINT SHEET —
+the print preview appears)*
+> "And one click turns it into a paper handout the farmer keeps. If someone
+> asks the same thing later — even in different words — Shuka answers from
+> the desk's own ledger in under half a second."
 
 **1:10–1:35 — live demo 2 (the guardrail)**
 *(type: "My chickens are sneezing and have swollen eyes. What medicine

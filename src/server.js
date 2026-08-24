@@ -15,7 +15,9 @@ import { readFile } from "node:fs/promises";
 import { join, dirname, extname, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadLLM } from "./lib/llm.js";
-import { loadIndex, retrieve } from "./lib/retrieve.js";
+import { loadIndex, rankByVector } from "./lib/retrieve.js";
+import { embedTexts } from "./lib/embedder.js";
+import { loadLedger, appendLedger, bestMatch, CACHE_SIMILARITY } from "./lib/ledger.js";
 import { GROUNDED_SYSTEM_PROMPT, buildGroundedUserPrompt, gateHits, TOP_K, REFUSAL_MESSAGE } from "./lib/prompts.js";
 
 const PORT = Number(process.env.PORT) || 4180;
@@ -31,11 +33,14 @@ const SECURITY_HEADERS = {
   "content-security-policy": "default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'",
 };
 
+const LEDGER_FILE = join(dirname(fileURLToPath(import.meta.url)), "..", "ledger", "ledger.jsonl");
+
 console.log("[serve] loading index and model (one-time)...");
 const index = loadIndex();
 let llm = await loadLLM();
+const ledger = loadLedger(LEDGER_FILE);
 const corpusDocs = new Set(index.chunks.map((c) => c.source)).size;
-console.log(`[serve] ready: ${index.chunks.length} passages from ${corpusDocs} documents`);
+console.log(`[serve] ready: ${index.chunks.length} passages from ${corpusDocs} documents; ledger holds ${ledger.length} past answers`);
 if (HOST !== "127.0.0.1" && HOST !== "localhost") {
   console.log("[serve] WARNING: serving beyond this machine. Community mode has no");
   console.log("[serve] user accounts — run it only on a network you trust (e.g. the");
@@ -118,7 +123,24 @@ async function handleAsk(req, res, ip) {
 
   const run = async () => {
     const t0 = Date.now();
-    const gate = gateHits(await retrieve(index, question, TOP_K));
+    const [queryVec] = await embedTexts([question]);
+
+    // The ledger first: a near-identical past question is answered
+    // instantly from this laptop's own record — no generation at all.
+    const past = bestMatch(ledger, queryVec);
+    if (past && past.score >= CACHE_SIMILARITY) {
+      sse(res, "cached", {
+        answer: past.entry.answer,
+        sources: past.entry.sources,
+        answeredAt: past.entry.ts,
+        similarity: Number(past.score.toFixed(2)),
+        retrievalMs: Date.now() - t0,
+      });
+      res.end();
+      return;
+    }
+
+    const gate = gateHits(rankByVector(index, queryVec, TOP_K));
     const retrievalMs = Date.now() - t0;
 
     if (!gate.answerable) {
@@ -128,17 +150,15 @@ async function handleAsk(req, res, ip) {
     }
     const hits = gate.kept;
 
-    sse(res, "sources", {
-      retrievalMs,
-      sources: hits.map((h, i) => ({
-        n: i + 1,
-        doc: h.chunk.source,
-        pageStart: h.chunk.pageStart,
-        pageEnd: h.chunk.pageEnd,
-        score: Number(h.score.toFixed(2)),
-        excerpt: h.chunk.text.slice(0, 220),
-      })),
-    });
+    const sources = hits.map((h, i) => ({
+      n: i + 1,
+      doc: h.chunk.source,
+      pageStart: h.chunk.pageStart,
+      pageEnd: h.chunk.pageEnd,
+      score: Number(h.score.toFixed(2)),
+      excerpt: h.chunk.text.slice(0, 220),
+    }));
+    sse(res, "sources", { retrievalMs, sources });
 
     const result = await llm.ask({
       systemPrompt: GROUNDED_SYSTEM_PROMPT,
@@ -146,6 +166,13 @@ async function handleAsk(req, res, ip) {
       onTextChunk: (t) => sse(res, "token", { t }),
     });
     consecutiveFailures = 0;
+    ledger.push(appendLedger(LEDGER_FILE, {
+      ts: new Date().toISOString(),
+      question,
+      vector: queryVec,
+      answer: result.text.trim(),
+      sources,
+    }));
     const tokPerSec =
       result.decodeSecs > 0 && result.tokens > 1 ? Number(((result.tokens - 1) / result.decodeSecs).toFixed(1)) : null;
     sse(res, "done", { ttftMs: result.ttftMs, tokPerSec, tokens: result.tokens });
@@ -187,7 +214,12 @@ const server = createServer(async (req, res) => {
   const ip = req.socket.remoteAddress ?? "unknown";
   if (req.method === "POST" && url.pathname === "/api/ask") return handleAsk(req, res, ip);
   if (req.method === "GET" && url.pathname === "/api/status") {
-    return json(res, 200, { passages: index.chunks.length, documents: corpusDocs, model: "Llama 3.2 1B Q4_K_M" });
+    return json(res, 200, { passages: index.chunks.length, documents: corpusDocs, model: "Llama 3.2 1B Q4_K_M", ledger: ledger.length });
+  }
+  if (req.method === "GET" && url.pathname === "/api/ledger") {
+    return json(res, 200, {
+      entries: ledger.slice(-30).reverse().map((e) => ({ question: e.question, ts: e.ts })),
+    });
   }
   if (req.method === "GET") return handleStatic(res, url.pathname);
   res.writeHead(405, SECURITY_HEADERS).end();

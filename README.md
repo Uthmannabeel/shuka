@@ -54,6 +54,13 @@ use the laptop as an offline answer server — **trusted networks only**:
 there are no user accounts; protection is a per-device rate limit, a
 bounded queue, and the network's own boundary.
 
+Desk features: **printed answer sheets** (one click formats the sheet as a
+paper handout with citations and date), **the ledger** (every answered
+question is remembered locally; near-identical repeats — even reworded —
+are served from the ledger in ~0.3s instead of a fresh generation; the
+record never leaves the laptop), and **copy-as-text** (answer + citations
+formatted for WhatsApp/SMS forwarding).
+
 There is also a CLI:
 
 ```bash

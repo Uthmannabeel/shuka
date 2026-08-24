@@ -354,3 +354,86 @@ main {
   .stamp { position: static; display: inline-block; margin-bottom: 0.8rem; }
   .sheet-head { padding-right: 0; }
 }
+
+/* ---- sheet actions (print / copy) ---- */
+
+.sheet-actions {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.sheet-actions button {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  color: var(--ink-soft);
+  padding: 0.5em 1em;
+}
+
+.sheet-actions button:hover { border-color: var(--field); color: var(--field-deep); }
+
+/* ---- the ledger ---- */
+
+.ledger-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 1.8rem 0 0.6rem;
+}
+
+.ledger-list { display: flex; flex-direction: column; gap: 0.4rem; align-items: flex-start; }
+
+.ledger-list button {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: left;
+  color: var(--ink);
+  background: none;
+  border: none;
+  border-left: 3px solid var(--rule);
+  padding: 0.3rem 0.75rem;
+}
+
+.ledger-list button:hover { border-left-color: var(--field); color: var(--field-deep); }
+
+.ledger-list button time {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.62rem;
+  color: var(--ink-soft);
+  margin-left: 0.6rem;
+}
+
+/* ---- print: the answer sheet becomes a paper handout ---- */
+
+.print-foot { display: none; }
+
+@media print {
+  .masthead, .ask, .empty, .ledger-sec, .colophon, .sheet-actions,
+  .metrics, .caret { display: none !important; }
+  body { background: #fff; }
+  main { width: 100%; padding: 0; }
+  .result { display: block; margin: 0; }
+  .sheet { border: none; box-shadow: none; padding: 0; }
+  .sources { margin-top: 1.5rem; }
+  .source-card { break-inside: avoid; }
+  .stamp { position: static; display: inline-block; margin-bottom: 0.8rem; }
+  .print-foot {
+    display: block;
+    margin-top: 1.6rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.05em;
+    color: var(--ink-soft);
+  }
+}

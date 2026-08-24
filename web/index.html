@@ -40,6 +40,11 @@
     </div>
   </section>
 
+  <section id="ledger-sec" class="ledger-sec" hidden>
+    <p class="ledger-label">The ledger — asked at this desk</p>
+    <div id="ledger-list" class="ledger-list"></div>
+  </section>
+
   <div id="result" class="result" hidden>
     <section class="sheet" aria-live="polite">
       <div class="sheet-head">
@@ -49,6 +54,13 @@
       <div class="stamp" id="stamp" hidden></div>
       <div class="answer" id="answer"></div>
       <div class="metrics" id="metrics"></div>
+      <div class="sheet-actions" id="sheet-actions" hidden>
+        <button type="button" id="print-btn">Print sheet</button>
+        <button type="button" id="copy-btn">Copy as text</button>
+      </div>
+      <p class="print-foot">Printed from Shuka — offline agronomy assistant ·
+      answers cited from published extension manuals · Built with Llama ·
+      <span id="print-date"></span></p>
     </section>
 
     <aside class="sources" id="sources-panel" hidden>
