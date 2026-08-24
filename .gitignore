@@ -10,3 +10,4 @@ node_modules/
 .ca-bundle.pem
 profiler-run.log
 profiler-run.err.log
+serve.log

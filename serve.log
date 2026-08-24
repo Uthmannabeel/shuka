@@ -1,7 +1,0 @@
-
-> adtc@0.1.0 serve
-> node src/server.js
-
-[serve] loading index and model (one-time)...
-[serve] ready: 1308 passages from 8 documents
-[serve] Shuka is at http://127.0.0.1:4180
