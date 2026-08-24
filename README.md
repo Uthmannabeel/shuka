@@ -1,5 +1,7 @@
 # Shuka — offline agronomy assistant
 
+**Website: [uthmannabeel.github.io/shuka](https://uthmannabeel.github.io/shuka/)**
+
 **Africa Deep Tech Challenge 2026 · Agriculture track.** *Shuka* is Hausa
 for "to plant / to sow."
 
