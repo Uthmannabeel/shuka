@@ -41,6 +41,12 @@ export async function loadLLM() {
         let tokens = 0;
         const text = await session.prompt(userPrompt, {
           maxTokens,
+          // Greedy decoding: identical inputs give identical answers, so the
+          // published eval is reproducible run-to-run. The repeat penalty
+          // guards against the degenerate-loop failure mode a 1B model shows
+          // on marginal prompts.
+          temperature: 0,
+          repeatPenalty: { penalty: 1.12, frequencyPenalty: 0.15 },
           onToken(toks) {
             if (firstTokenAt === null) firstTokenAt = Date.now();
             tokens += toks.length;

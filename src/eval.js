@@ -12,7 +12,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadLLM } from "./lib/llm.js";
 import { loadIndex, retrieve } from "./lib/retrieve.js";
-import { GROUNDED_SYSTEM_PROMPT, RAW_SYSTEM_PROMPT, buildGroundedUserPrompt, SIMILARITY_FLOOR, TOP_K, REFUSAL_MESSAGE } from "./lib/prompts.js";
+import { GROUNDED_SYSTEM_PROMPT, RAW_SYSTEM_PROMPT, buildGroundedUserPrompt, gateHits, ANSWER_FLOOR, INCLUDE_FLOOR, TOP_K, REFUSAL_MESSAGE } from "./lib/prompts.js";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const groundedOnly = process.argv.includes("--grounded-only");
@@ -38,9 +38,10 @@ try {
     }
 
     const t1 = Date.now();
-    const hits = (await retrieve(index, q.question, TOP_K)).filter((h) => h.score >= SIMILARITY_FLOOR);
+    const gate = gateHits(await retrieve(index, q.question, TOP_K));
+    const hits = gate.kept;
     const retrievalMs = Date.now() - t1;
-    if (hits.length === 0) {
+    if (!gate.answerable) {
       entry.grounded = { refused: true, answer: REFUSAL_MESSAGE, retrievalMs, hits: [] };
     } else {
       const gen = await llm.ask({
@@ -73,7 +74,7 @@ try {
 
 mkdirSync(join(ROOT, "eval", "results"), { recursive: true });
 const outFile = join(ROOT, "eval", "results", `eval-${startedAt.replace(/[:.]/g, "-")}.json`);
-writeFileSync(outFile, JSON.stringify({ startedAt, model: "Llama-3.2-1B-Instruct-Q4_K_M", topK: TOP_K, similarityFloor: SIMILARITY_FLOOR, results }, null, 2));
+writeFileSync(outFile, JSON.stringify({ startedAt, model: "Llama-3.2-1B-Instruct-Q4_K_M", topK: TOP_K, answerFloor: ANSWER_FLOOR, includeFloor: INCLUDE_FLOOR, results }, null, 2));
 
 // Side-by-side markdown for human grading
 const md = results

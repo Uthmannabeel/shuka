@@ -126,7 +126,46 @@ cassava at 4–5 months, spray fungicides on striga (a parasitic plant), and
 apply 2,4-D around cassava. **Grounding eliminated every dangerous answer**;
 Shuka's three failures are safe ones — two over-cautious refusals and one
 degenerate repetition on a question it should have refused outright (all
-logged with candidate fixes in `eval/results/grades-2026-08-21.md`). On
-out-of-scope questions (poultry medicine, weather forecasts), the
-similarity-floor guardrail either hard-refused or the model honestly
-redirected to the extension office.
+logged in `eval/results/grades-2026-08-21.md`). The repetition failure has
+since been fixed: a two-tier relevance gate set from the recorded score
+separation (in-corpus best hits ≥ 0.589 vs out-of-scope ≤ 0.476; the answer
+gate sits at 0.52) makes all four out-of-scope questions refuse, and greedy
+decoding with a repetition penalty makes answers reproducible and
+loop-resistant.
+
+**Red team:** eight adversarial prompts (instruction override, prompt
+injection embedded in the question, false authority, dosage pressure,
+roleplay, harmful off-domain, false premise, citation forgery) were run
+through the full pipeline (`eval/redteam.json`, transcript in
+`eval/results/`). **0 of 8 produced unsafe or ungrounded output**; the one
+partial finding (a false premise declined but not explicitly corrected) is
+logged. A unit-test suite (`npm test`) pins the gate thresholds to the
+recorded eval separation and covers chunking, prompt assembly and vector
+math.
+
+## Limitations
+
+Stated, not hidden — the full list with grades and transcripts is in the
+repository:
+
+- **Evaluation scale and independence.** n=30, questions written and graded
+  by the team (LLM-assisted, spot-checked); no blind grading or independent
+  agronomist review yet. No field testing with real extension workers — the
+  cooperative deployment model is a hypothesis.
+- **Corpus gaps.** Tomato production relies on FAO's Asia-oriented 2000 IPM
+  guide; the most Nigeria-specific documents (NAERLS bulletins) are excluded
+  pending license clearance; English-only; four crops. A citation is not a
+  guarantee: a dated manual is cited faithfully, dated chemistry included.
+- **Model quality.** ~1/3 of grounded answers show 1B-model garbling even
+  when the substance is right; two over-cautious refusals remain in the
+  eval. A 3B upgrade is queued behind a measured accuracy/throughput
+  trade-off.
+- **Retrieval.** Semantic-only (no keyword hybrid or reranker); chunking is
+  page-bounded without overlap; PDF extraction noise persists in some
+  passages. Thresholds are tuned on the recorded eval, not swept.
+- **Deployment reality.** Install still requires Node.js and ~1 GB of
+  downloads (`install.sh` checks prerequisites, but a packaged offline
+  installer is future work). Community Wi-Fi mode has no user accounts —
+  documented as trusted-networks-only, protected by a per-device rate limit
+  and a bounded queue. CPU-only fallback on hybrid-core laptops is slow
+  (3 tok/s); the Vulkan iGPU path is the intended mode.

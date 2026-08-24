@@ -63,8 +63,7 @@
         </div>
         <div class="terminal" role="figure" aria-label="Setup commands">
           <div><span class="c">$</span> git clone https://github.com/Uthmannabeel/shuka &amp;&amp; cd shuka</div>
-          <div><span class="c">$</span> npm install &amp;&amp; bash download_model.sh</div>
-          <div><span class="c">$</span> npm run setup   <span class="c"># caches the embedding model — last network use</span></div>
+          <div><span class="c">$</span> bash install.sh <span class="c"># deps + model + offline cache, checked</span></div>
           <div><span class="c">$</span> npm run serve   <span class="c"># → http://localhost:4180</span></div>
         </div>
         <p class="prose" style="margin-top:1.2rem">The model download is
@@ -75,7 +74,7 @@
       </div>
       <ul class="run-facts reveal" style="list-style:none;padding:0">
         <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Requirements</span>Node.js 20+, ~4 GB free disk, any 8 GB laptop with an i5-class CPU. Windows, Linux and macOS. Integrated graphics is used automatically when present.</li>
-        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Community mode</span>Start with <code class="inline">SHUKA_HOST=0.0.0.0</code> and phones on the cooperative's own hotspot can use the laptop as an answer server — still no internet involved.</li>
+        <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Community mode</span>Start with <code class="inline">SHUKA_HOST=0.0.0.0</code> and phones on the cooperative's own hotspot can use the laptop as an answer server — still no internet involved. <strong>Trusted networks only:</strong> there are no user accounts; protection is a per-device rate limit and the network's own boundary.</li>
         <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Command line</span><code class="inline">npm run ask -- "your question"</code> for the same pipeline in a terminal; <code class="inline">--show-context</code> prints retrieved passages, <code class="inline">--raw</code> bypasses grounding for comparison.</li>
         <li style="padding:0.9rem 0;border-bottom:1px solid var(--rule)"><span class="eyebrow" style="color:var(--leaf-deep);display:block;margin-bottom:0.3rem">Reproduce our numbers</span><code class="inline">npm run bench</code> and <code class="inline">npm run eval</code> regenerate the published benchmarks and evaluation transcripts on your own hardware.</li>
       </ul>
@@ -185,7 +184,7 @@
         <ul><li>An entry in the Africa Deep Tech Challenge 2026, Agriculture track.</li></ul>
       </div>
     </div>
-    <p class="foot-legal">Code MIT · Model: Llama 3.2 1B Instruct (Meta Llama
+    <p class="foot-legal">Code MIT · Built with Llama — Llama 3.2 1B Instruct (Meta Llama
     Community License, downloaded at install) · Corpus documents remain under
     their original licenses · Shuka gives agronomic information from cited
     manuals; it is not a substitute for a qualified extension officer.</p>

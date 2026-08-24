@@ -10,7 +10,9 @@
     "ask": "node src/ask.js",
     "eval": "node src/eval.js",
     "setup": "node src/setup.js",
-    "serve": "node src/server.js"
+    "serve": "node src/server.js",
+    "test": "node --test",
+    "redteam": "node src/redteam.js"
   },
   "overrides": {
     "bare-zlib": "1.3.1"

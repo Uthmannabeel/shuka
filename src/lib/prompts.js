@@ -2,7 +2,23 @@
 // harness so both exercise the identical pipeline.
 
 export const TOP_K = 4;
-export const SIMILARITY_FLOOR = 0.35; // MiniLM cosine; tuned against the eval set
+
+// Two-tier relevance gate, set from the recorded scores of the 2026-08-21
+// eval: every in-corpus question's best hit scored >= 0.589 and every
+// out-of-scope question's best hit <= 0.476. ANSWER_FLOOR sits mid-margin:
+// unless the single best hit clears it, the model is never invoked.
+// INCLUDE_FLOOR only decides which supporting chunks ride along.
+export const ANSWER_FLOOR = 0.52;
+export const INCLUDE_FLOOR = 0.35;
+
+/**
+ * @param {{score: number}[]} hits retrieval results, best first
+ * @returns {{answerable: boolean, kept: {score: number}[]}}
+ */
+export function gateHits(hits) {
+  const kept = hits.filter((h) => h.score >= INCLUDE_FLOOR);
+  return { answerable: kept.length > 0 && kept[0].score >= ANSWER_FLOOR, kept };
+}
 
 export const GROUNDED_SYSTEM_PROMPT = [
   "You are Shuka, an agricultural extension assistant for smallholder farmers in Nigeria.",

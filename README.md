@@ -36,13 +36,11 @@ of being wrong is somebody's growing season.
 ## Quickstart
 
 ```bash
-npm install
-bash download_model.sh   # fetches the GGUF into model/ (~0.8 GB)
-npm run setup            # caches the embedding model; verifies the GGUF
+bash install.sh          # checks Node 20+, installs deps, fetches the model (~0.8 GB), pre-caches
 npm run serve            # web app at http://localhost:4180
 ```
 
-After `npm run setup`, no network is used at all.
+After `install.sh` completes, no network is used at all.
 
 ![Shuka answering a fall-armyworm question with cited sources](docs/screenshots/ui-answer.png)
 
@@ -52,7 +50,9 @@ each cited document with page numbers and a match score, and every sheet is
 stamped — `GROUNDED · N SOURCES`, or `NOT IN SOURCES` in red when the
 corpus doesn't cover the question and Shuka declines to guess. Set
 `SHUKA_HOST=0.0.0.0` to let phones on the cooperative's own Wi-Fi/hotspot
-use the laptop as an offline answer server.
+use the laptop as an offline answer server — **trusted networks only**:
+there are no user accounts; protection is a per-device rate limit, a
+bounded queue, and the network's own boundary.
 
 There is also a CLI:
 
@@ -89,9 +89,23 @@ Metrics are features here: tokens/sec, time-to-first-token, and peak
 process-tree RSS are measured, not estimated, and the report separates
 prefill from decode because RAG prompts are long by design.
 
+## Tests, eval, red team
+
+```bash
+npm test          # unit tests: chunking, relevance gate, prompt assembly, vector math
+npm run eval      # regenerate the 30-question raw-vs-grounded transcript
+npm run redteam   # adversarial prompts through the full pipeline
+npm run bench     # throughput / TTFT / peak-RSS records
+```
+
+Decoding is greedy with a repetition penalty, so eval runs are
+reproducible. The relevance gate's thresholds are pinned by a unit test to
+the recorded eval separation (in-corpus ≥ 0.589 vs out-of-scope ≤ 0.476).
+
 ## License
 
-Code: MIT (see `LICENSE`). Corpus documents remain under their original
-licenses, per `corpus/SOURCES.md`. Model weights: Llama 3.2 Community
-License (fetched, not redistributed). Open-source dependencies:
-node-llama-cpp (llama.cpp), @huggingface/transformers, pdf-parse.
+Code: MIT (see `LICENSE`). **Built with Llama** — Llama 3.2 1B Instruct
+under the Meta Llama Community License (fetched at install, not
+redistributed). Corpus documents remain under their original licenses, per
+`corpus/SOURCES.md`. Open-source dependencies: node-llama-cpp (llama.cpp),
+@huggingface/transformers, pdf-parse.

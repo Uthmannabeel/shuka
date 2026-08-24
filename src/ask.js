@@ -12,7 +12,7 @@
 
 import { loadLLM } from "./lib/llm.js";
 import { loadIndex, retrieve } from "./lib/retrieve.js";
-import { GROUNDED_SYSTEM_PROMPT, RAW_SYSTEM_PROMPT, buildGroundedUserPrompt, SIMILARITY_FLOOR, TOP_K, REFUSAL_MESSAGE } from "./lib/prompts.js";
+import { GROUNDED_SYSTEM_PROMPT, RAW_SYSTEM_PROMPT, buildGroundedUserPrompt, gateHits, TOP_K, REFUSAL_MESSAGE } from "./lib/prompts.js";
 
 const CONTROL_CHARS = /[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g;
 
@@ -32,10 +32,11 @@ let retrievalMs = 0;
 if (useRag) {
   const index = loadIndex();
   const t0 = Date.now();
-  hits = (await retrieve(index, question, TOP_K)).filter((h) => h.score >= SIMILARITY_FLOOR);
+  const gate = gateHits(await retrieve(index, question, TOP_K));
+  hits = gate.kept;
   retrievalMs = Date.now() - t0; // includes query embedding
 
-  if (hits.length === 0) {
+  if (!gate.answerable) {
     console.log(REFUSAL_MESSAGE);
     process.exit(0);
   }
