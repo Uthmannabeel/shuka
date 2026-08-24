@@ -24,4 +24,18 @@ if (reduced || !("IntersectionObserver" in window)) {
   );
   revealed.forEach((el) => io.observe(el));
 }
+
+// Light/dark toggle. System preference is the default; an explicit choice
+// is stored and applied before first paint by the inline <head> script.
+const themeBtn = document.querySelector(".theme-btn");
+if (themeBtn) {
+  themeBtn.addEventListener("click", () => {
+    const root = document.documentElement;
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const current = root.dataset.theme || (systemDark ? "dark" : "light");
+    const next = current === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try { localStorage.setItem("shuka-theme", next); } catch {}
+  });
+}
 }
